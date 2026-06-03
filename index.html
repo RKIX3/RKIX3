@@ -1,4 +1,3 @@
-```html
 <!DOCTYPE html>
 <html lang="vi" class="dark">
 <head>
@@ -71,16 +70,8 @@
             <div class="flex flex-col gap-6">
                 <!-- Phần Logo Đầu Trang Sidebar -->
                 <div class="flex items-center justify-between">
-                    <div class="w-[170px] h-[45px] cursor-pointer flex items-center justify-start" onclick="goHome()">
-                        <!-- Sử dụng trực tiếp ảnh logo RKIX3 gốc từ dự án để font chữ chuẩn xác nhất -->
-                        <img src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=180&h=50&q=80" alt="RKIX3 Logo" class="hidden">
-                        <!-- Tạo lại logo chữ nguyên bản bằng nét vẽ vector phẳng siêu chi tiết -->
-                        <div class="flex items-center gap-2">
-                            <div class="w-8 h-8 flex items-center justify-center border-2 border-cyan-400 square-flat">
-                                <span class="text-cyan-400 font-bold text-xs">&lt;/&gt;</span>
-                            </div>
-                            <span class="text-white font-extrabold text-lg tracking-wider font-sans">RKIX<span class="text-cyan-400">3</span></span>
-                        </div>
+                    <div class="w-[170px] h-[45px] cursor-pointer flex items-center justify-start overflow-hidden" onclick="goHome()">
+                        <img src="1780136894650-Photoroom.png" alt="RKIX3 Logo" class="h-full w-auto object-contain object-left drop-shadow-[0_0_12px_rgba(0,210,255,0.35)]">
                     </div>
                     <!-- Nút đóng Sidebar trên di động -->
                     <button onclick="setMobileSidebar(false)" class="p-1.5 text-zinc-500 hover:text-white md:hidden hover:bg-zinc-900 square-flat transition-all">
@@ -132,30 +123,7 @@
                     </button>
                 </nav>
 
-                <!-- Lịch sử đoạn chat Gần đây -->
-                <div class="pt-4 border-t border-zinc-900/80">
-                    <p class="px-3 text-[10px] font-bold text-blue-600 uppercase tracking-wider mb-2.5">Gần đây</p>
-                    <div class="space-y-0.5">
-                        <div onclick="loadPromptSample('Quản lý DNS rkix.com')" class="group flex items-center justify-between px-3 py-2 square-flat hover:bg-zinc-900/40 text-xs text-zinc-400 hover:text-zinc-200 cursor-pointer transition-all">
-                            <div class="flex items-center gap-2 truncate">
-                                <i data-lucide="message-square" class="w-3.5 h-3.5 text-zinc-600"></i>
-                                <span class="truncate">Quản lý DNS rkix.com</span>
-                            </div>
-                        </div>
-                        <div onclick="loadPromptSample('Chào bạn')" class="group flex items-center justify-between px-3 py-2 square-flat hover:bg-zinc-900/40 text-xs text-zinc-400 hover:text-zinc-200 cursor-pointer transition-all">
-                            <div class="flex items-center gap-2 truncate">
-                                <i data-lucide="message-square" class="w-3.5 h-3.5 text-zinc-600"></i>
-                                <span class="truncate">Chào bạn</span>
-                            </div>
-                        </div>
-                        <div onclick="loadPromptSample('Ví dụ về đoạn chat')" class="group flex items-center justify-between px-3 py-2 square-flat hover:bg-zinc-900/40 text-xs text-zinc-400 hover:text-zinc-200 cursor-pointer transition-all">
-                            <div class="flex items-center gap-2 truncate">
-                                <i data-lucide="message-square" class="w-3.5 h-3.5 text-zinc-600"></i>
-                                <span class="truncate">Ví dụ về đoạn chat</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                <!-- Đã xoá mục lịch sử đoạn chat gần đây theo yêu cầu. -->
             </div>
 
             <!-- CHÂN SIDEBAR ĐỂ TRỐNG TUYỆT ĐỐI - KHÔNG CÓ BẤT KỲ THÔNG TIN ĐĂNG NHẬP HAY AVATAR NÀO THEO ĐÚNG ẢNH MẪU -->
@@ -198,54 +166,9 @@
                 
                 <!-- KHỐI LOGO GIỮA MÀN HÌNH CHUẨN ĐÚNG FONT CHỮ THIẾT KẾ CỦA BẠN (1000014177.PNG) -->
                 <div id="brandCentral" class="text-center mb-10 flex flex-col items-center animate-fade-in">
-                    <!-- Tái tạo Logo RKIX3 bằng mã vẽ Vector cực đỉnh, đảm bảo font chữ sắc bén vát góc giống hệt 100% ảnh logo của bạn -->
-                    <div class="w-full max-w-[420px] h-[110px] cursor-pointer drop-shadow-[0_0_20px_rgba(0,210,255,0.15)] mb-2" onclick="goHome()">
-                        <svg viewBox="0 0 720 160" class="w-full h-full" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <!-- Icon Lục giác Bánh răng -->
-                            <g transform="translate(15, -10)">
-                                <circle cx="90" cy="90" r="75" fill="url(#neonBlueGlow)" opacity="0.45"/>
-                                <polygon points="90,12 158,51 158,129 90,168 22,129 22,51" stroke="#0e2854" stroke-width="6" fill="#02050c"/>
-                                <polygon points="90,18 152,54 152,126 90,162 28,126 28,54" stroke="#00d2ff" stroke-width="2" opacity="0.8"/>
-                                <path d="M 17,80 L 10,90 L 25,90" stroke="#00d2ff" stroke-width="2.5" stroke-linecap="square"/>
-                                <path d="M 163,80 L 170,90 L 155,90" stroke="#00d2ff" stroke-width="2.5" stroke-linecap="square"/>
-                                <circle cx="90" cy="90" r="48" stroke="#00d2ff" stroke-width="4.5" fill="#02050c"/>
-                                <text x="90" y="62" fill="#00d2ff" font-family="monospace" font-size="14" font-weight="900" text-anchor="middle">{}</text>
-                                <text x="90" y="128" fill="#00d2ff" font-family="monospace" font-size="11" font-weight="900" text-anchor="middle">[ ]...</text>
-                                <path d="M 62,72 L 54,82 L 60,82 L 56,92" stroke="#00d2ff" stroke-width="2.5" stroke-linecap="square"/>
-                                <path d="M 124,102 L 116,112 L 122,112 L 118,122" stroke="#00d2ff" stroke-width="2.5" stroke-linecap="square"/>
-                                <path d="M 72,90 L 80,82 M 72,90 L 80,98" stroke="#ffffff" stroke-width="4.5" stroke-linecap="square"/>
-                                <path d="M 86,102 L 94,78" stroke="#ffffff" stroke-width="4.5" stroke-linecap="square"/>
-                                <path d="M 108,90 L 100,82 M 108,90 L 100,98" stroke="#ffffff" stroke-width="4.5" stroke-linecap="square"/>
-                            </g>
-                            <!-- Chữ RKIX3 Font Cơ Khí chuẩn xác -->
-                            <g transform="translate(195, -10)">
-                                <!-- Chữ R vát nhọn phẳng -->
-                                <path d="M 15,48 L 76,48 C 96,48 106,58 106,74 C 106,88 94,97 76,97 L 44,97 L 44,128 M 44,97 L 82,128" stroke="#0e2854" stroke-width="19" stroke-linecap="square" stroke-linejoin="miter"/>
-                                <path d="M 15,48 L 76,48 C 96,48 106,58 106,74 C 106,88 94,97 76,97 L 44,97 L 44,128 M 44,97 L 82,128" stroke="#02050c" stroke-width="11" stroke-linecap="square" stroke-linejoin="miter"/>
-                                <!-- Chữ K vát phẳng -->
-                                <path d="M 125,48 L 125,128 M 125,86 L 178,48 M 143,74 L 182,128" stroke="#0e2854" stroke-width="19" stroke-linecap="square" stroke-linejoin="miter"/>
-                                <path d="M 125,48 L 125,128 M 125,86 L 178,48 M 143,74 L 182,128" stroke="#02050c" stroke-width="11" stroke-linecap="square" stroke-linejoin="miter"/>
-                                <!-- Chữ I thẳng đứng -->
-                                <path d="M 205,48 L 205,128" stroke="#0e2854" stroke-width="19" stroke-linecap="square"/>
-                                <path d="M 205,48 L 205,128" stroke="#02050c" stroke-width="11" stroke-linecap="square"/>
-                                <!-- Chữ X -->
-                                <path d="M 232,48 L 282,128" stroke="#0e2854" stroke-width="19" stroke-linecap="square"/>
-                                <path d="M 232,48 L 282,128" stroke="#02050c" stroke-width="11" stroke-linecap="square"/>
-                                <path d="M 282,48 L 232,128" stroke="#00d2ff" stroke-width="19" stroke-linecap="square"/>
-                                <path d="M 282,48 L 232,128" stroke="#00a3e0" stroke-width="11" stroke-linecap="square"/>
-                                <!-- Số 3 chuẩn khối gấp khúc -->
-                                <path d="M 302,48 L 358,48 L 324,86 L 358,86 C 363,86 369,96 358,114 L 348,128 L 302,128" stroke="#00d2ff" stroke-width="19" stroke-linecap="square" stroke-linejoin="miter"/>
-                                <path d="M 302,48 L 358,48 L 324,86 L 358,86 C 363,86 369,96 358,114 L 348,128 L 302,128" stroke="#00a3e0" stroke-width="11" stroke-linecap="square" stroke-linejoin="miter"/>
-                                <!-- Chữ phụ đề nhỏ dưới chân logo -->
-                                <text x="14" y="156" fill="#0d1f3e" font-family="'Inter', sans-serif" font-size="13" font-weight="900" letter-spacing="4.5">LẬP TRÌNH - CODE - BUILD - TỰ ĐỘNG HOÁ</text>
-                            </g>
-                            <defs>
-                                <radialGradient id="neonBlueGlow" cx="50%" cy="50%" r="50%">
-                                    <stop offset="0%" stop-color="#00d2ff" stop-opacity="0.45"/>
-                                    <stop offset="100%" stop-color="#0052cc" stop-opacity="0"/>
-                                </radialGradient>
-                            </defs>
-                        </svg>
+                    <!-- Logo chính dùng ảnh Photoroom mới của dự án -->
+                    <div class="w-full max-w-[520px] cursor-pointer drop-shadow-[0_0_24px_rgba(0,210,255,0.22)] mb-2" onclick="goHome()">
+                        <img src="1780136894650-Photoroom.png" alt="RKIX3 Logo" class="w-full h-auto object-contain mx-auto">
                     </div>
 
                     <h3 class="text-lg md:text-xl font-bold tracking-tight text-white mt-10 mb-6" id="welcomingText">
@@ -740,4 +663,3 @@
 </body>
 </html>
 
-```
