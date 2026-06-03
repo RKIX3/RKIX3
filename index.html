@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RKIX3 AI</title>
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Inter,Arial,sans-serif;
+}
+
+body{
+background:#050B15;
+background-image:
+radial-gradient(circle at top,
+rgba(31,168,255,.18),
+transparent 45%);
+color:#fff;
+height:100vh;
+overflow:hidden;
+}
+
+.app{
+display:flex;
+height:100vh;
+}
+
+/* SIDEBAR */
+
+.sidebar{
+width:280px;
+background:#07111F;
+border-right:1px solid rgba(31,168,255,.15);
+padding:20px;
+display:flex;
+flex-direction:column;
+}
+
+.brand{
+font-size:30px;
+font-weight:800;
+color:#1FA8FF;
+margin-bottom:30px;
+}
+
+.menu{
+display:flex;
+flex-direction:column;
+gap:10px;
+}
+
+.menu button{
+background:#0B1C33;
+border:none;
+color:#fff;
+padding:14px;
+cursor:pointer;
+text-align:left;
+font-size:15px;
+transition:.2s;
+}
+
+.menu button:hover{
+background:#123055;
+}
+
+/* MAIN */
+
+.main{
+flex:1;
+display:flex;
+flex-direction:column;
+}
+
+.topbar{
+height:70px;
+display:flex;
+justify-content:flex-end;
+align-items:center;
+padding:0 25px;
+}
+
+.login-btn{
+background:
+linear-gradient(
+90deg,
+#0A3D7A,
+#1FA8FF
+);
+
+border:none;
+padding:12px 22px;
+color:#fff;
+cursor:pointer;
+font-weight:600;
+}
+
+.hero{
+flex:1;
+display:flex;
+flex-direction:column;
+align-items:center;
+justify-content:center;
+padding:30px;
+text-align:center;
+}
+
+.logo-big{
+width:580px;
+max-width:90%;
+margin-bottom:25px;
+
+filter:
+drop-shadow(
+0 0 25px rgba(31,168,255,.45)
+);
+}
+
+.hero h1{
+font-size:48px;
+margin-bottom:30px;
+font-weight:700;
+}
+
+/* CHAT */
+
+.chat-box{
+width:100%;
+max-width:900px;
+
+display:flex;
+
+background:#0B1220;
+
+border:
+1px solid #1FA8FF;
+}
+
+.chat-box input{
+
+flex:1;
+
+padding:20px;
+
+background:none;
+
+border:none;
+
+outline:none;
+
+color:white;
+
+font-size:16px;
+}
+
+.send-btn{
+
+width:70px;
+
+background:#1FA8FF;
+
+border:none;
+
+color:white;
+
+cursor:pointer;
+
+font-size:22px;
+}
+
+/* CARDS */
+
+.cards{
+
+width:100%;
+
+max-width:1000px;
+
+display:grid;
+
+grid-template-columns:
+repeat(4,1fr);
+
+gap:20px;
+
+margin-top:30px;
+}
+
+.card{
+
+background:#0B1220;
+
+border:
+1px solid rgba(
+31,
+168,
+255,
+.20
+);
+
+padding:25px;
+
+transition:.25s;
+}
+
+.card:hover{
+
+transform:
+translateY(-4px);
+
+border-color:#1FA8FF;
+}
+
+.card h3{
+
+margin-bottom:10px;
+
+font-size:20px;
+}
+
+.card p{
+
+font-size:14px;
+
+opacity:.8;
+
+line-height:1.6;
+}
+
+/* MOBILE */
+
+.mobile-toggle{
+display:none;
+}
+
+@media(max-width:900px){
+
+.sidebar{
+display:none;
+}
+
+.hero h1{
+font-size:30px;
+}
+
+.cards{
+grid-template-columns:
+1fr 1fr;
+}
+
+.logo-big{
+width:350px;
+}
+
+.mobile-toggle{
+
+display:block;
+
+position:fixed;
+
+top:15px;
+left:15px;
+
+z-index:999;
+
+background:#0B1C33;
+
+border:none;
+
+color:white;
+
+padding:12px 15px;
+}
+
+body.menu-open .sidebar{
+display:flex;
+position:fixed;
+left:0;
+top:0;
+height:100%;
+z-index:998;
+}
+
+}
+
+@media(max-width:600px){
+
+.cards{
+grid-template-columns:1fr;
+}
+
+.hero h1{
+font-size:24px;
+}
+
+.logo-big{
+width:260px;
+}
+
+}
+
+</style>
+</head>
+
+<body>
+
+<button
+class="mobile-toggle"
+onclick="document.body.classList.toggle('menu-open')">
+☰
+</button>
+
+<div class="app">
+
+<!-- SIDEBAR -->
+
+<aside class="sidebar">
+
+<div class="brand">
+RKIX3
+</div>
+
+<div class="menu">
+
+<button>Đoạn chat mới</button>
+<button>Tìm kiếm</button>
+<button>Thư viện</button>
+<button>Dự án</button>
+<button>Ứng dụng</button>
+<button>Codex</button>
+<button>Thêm</button>
+
+</div>
+
+</aside>
+
+<!-- MAIN -->
+
+<div class="main">
+
+<div class="topbar">
+
+<button class="login-btn">
+Đăng nhập
+</button>
+
+</div>
+
+<div class="hero">
+
+<img
+src="1780136894650.png"
+alt="RKIX3"
+class="logo-big">
+
+<h1>
+Chúng ta nên bắt đầu từ đâu?
+</h1>
+
+<div class="chat-box">
+
+<input
+type="text"
+placeholder="Hỏi bất kỳ điều gì...">
+
+<button class="send-btn">
+↑
+</button>
+
+</div>
+
+<div class="cards">
+
+<div class="card">
+<h3>Lập trình</h3>
+<p>
+Viết code, debug và tối ưu hệ thống.
+</p>
+</div>
+
+<div class="card">
+<h3>Build</h3>
+<p>
+Xây dựng sản phẩm bằng AI.
+</p>
+</div>
+
+<div class="card">
+<h3>Tự động hóa</h3>
+<p>
+Tự động hóa quy trình làm việc.
+</p>
+</div>
+
+<div class="card">
+<h3>AI Thông Minh</h3>
+<p>
+Hỗ trợ xử lý tác vụ nâng cao.
+</p>
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</body>
+</html>
