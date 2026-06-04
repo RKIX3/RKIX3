@@ -204,7 +204,7 @@
                     <div class="p-4 border-b border-zinc-900 flex items-center justify-between">
                         <div class="flex items-center gap-2">
                             <span class="w-2 h-2 bg-cyan-400 animate-pulse square-flat"></span>
-                            <span class="text-xs font-bold text-white">RKIX3 AI Chat</span>
+                            <span class="text-xs font-bold text-white">RKIX3 Trợ Lý AI</span>
                         </div>
                         <button onclick="minimizeChat()" class="p-1 text-zinc-400 hover:text-white transition-all"><i data-lucide="minus" class="w-4 h-4"></i></button>
                     </div>
@@ -223,7 +223,7 @@
                     <header class="flex items-center justify-between px-6 py-4 border-b border-zinc-900/80 bg-rkixDark/30 backdrop-blur-md">
                         <div class="flex items-center gap-3">
                             <span class="w-2 h-2 bg-cyan-400 animate-pulse square-flat"></span>
-                            <h2 class="text-sm font-bold text-white">RKIX3 AI Chat</h2>
+                            <h2 class="text-sm font-bold text-white">RKIX3 Trợ Lý AI</h2>
                         </div>
                         <button onclick="closeFullChat()" class="p-2 text-zinc-400 hover:text-white hover:bg-zinc-900 square-flat transition-all"><i data-lucide="x" class="w-5 h-5"></i></button>
                     </header>
@@ -247,10 +247,10 @@
                         <!-- Execution Logs -->
                         <div class="w-80 bg-rkixSidebar border border-rkixBorder square-flat overflow-hidden flex flex-col">
                             <div class="px-4 py-3 border-b border-zinc-900 bg-zinc-950">
-                                <p class="text-[9px] font-bold text-zinc-400 uppercase tracking-widest">Execution Log</p>
+                                <p class="text-[9px] font-bold text-zinc-400 uppercase tracking-widest">Nhật Ký Thực Thi</p>
                             </div>
                             <div id="executionLogs" class="flex-1 overflow-y-auto no-scrollbar font-mono text-[11px] p-4 space-y-1">
-                                <div class="text-zinc-500">[system] Khởi động RKIX3 AI Core...</div>
+                                <div class="text-zinc-500">[hệ_thống] Khởi động RKIX3 Trợ Lý AI...</div>
                             </div>
                         </div>
                     </div>
@@ -860,7 +860,7 @@ Nếu tạo HTML preview, trả về một khối HTML hoàn chỉnh.`;
 
         // ========== AI Chat Functions ==========
         let chatHistory = [];
-        let executionLogs = ['[system] Khởi động RKIX3 AI Core...'];
+        let executionLogs = ['[hệ_thống] Khởi động RKIX3 Trợ Lý AI...'];
 
         function openFullChat() {
             const input = document.getElementById('collapsedInput').value.trim();
@@ -927,32 +927,32 @@ Nếu tạo HTML preview, trả về một khối HTML hoàn chỉnh.`;
         }
 
         function simulateAIExecution(userPrompt) {
-            addExecutionLog('[quá_trình] Phân tích yêu cầu...', 'info');
-            setTimeout(() => addExecutionLog('[quá_trình] Khởi tạo mô hình RKIX3 Core...', 'info'), 500);
-            setTimeout(() => addExecutionLog('[bối_cảnh] 🔍 Quét cấu trúc dự án...', 'info'), 1200);
+            addExecutionLog('[quá_trình] Phân tích yêu cầu của bạn...', 'info');
+            setTimeout(() => addExecutionLog('[quá_trình] Tải RKIX3 Trợ Lý AI...', 'info'), 500);
+            setTimeout(() => addExecutionLog('[ngữ_cảnh] 🔍 Quét cấu trúc dự án...', 'info'), 1200);
             
             setTimeout(() => {
-                addExecutionLog('[code] 🔧 Tạo blueprint cấu trúc...', 'info');
-                addExecutionLog('[code] ✓ Thành phần: 5 tệp tạo', 'success');
-                addExecutionLog('[code] ✓ Tiện ích: 3 tệp tạo', 'success');
-                addExecutionLog('[code] ✓ Kiểu dữ liệu: Được tạo', 'success');
+                addExecutionLog('[mã] 🔧 Tạo mẫu cấu trúc...', 'info');
+                addExecutionLog('[mã] ✓ Thành phần: 5 tệp được tạo', 'success');
+                addExecutionLog('[mã] ✓ Tiện ích: 3 tệp được tạo', 'success');
+                addExecutionLog('[mã] ✓ Kiểu dữ liệu: Được tạo', 'success');
             }, 2000);
 
             setTimeout(() => {
-                addExecutionLog('[build] 📦 Tối ưu hóa xây dựng...', 'info');
-                addExecutionLog('[build] ✓ Loại bỏ mã không dùng', 'success');
-                addExecutionLog('[build] ✓ Nén CSS/JS', 'success');
+                addExecutionLog('[xây_dựng] 📦 Tối ưu hóa xây dựng...', 'info');
+                addExecutionLog('[xây_dựng] ✓ Xóa mã không dùng', 'success');
+                addExecutionLog('[xây_dựng] ✓ Nén CSS/JavaScript', 'success');
             }, 3500);
 
             setTimeout(() => {
                 addExecutionLog('[triển_khai] 🚀 Tạo kế hoạch triển khai...', 'info');
                 addExecutionLog('[triển_khai] ✓ Cấu hình Vercel sẵn sàng', 'success');
-                addExecutionLog('[triển_khai] ✓ Biến môi trường: cần 8', 'warning');
+                addExecutionLog('[triển_khai] ✓ Biến môi trường: cần 8 biến', 'warning');
             }, 4500);
 
             setTimeout(() => {
                 addExecutionLog('[hoàn_thành] ✨ RKIX3 đã hoàn thành phân tích!', 'success');
-                const mockResponse = `RKIX3 đã phân tích yêu cầu của bạn:\n\n📋 Yêu cầu: ${userPrompt}\n\n✅ Kế hoạch thực hiện:\n1. Tạo cấu trúc dự án (Thành phần, Tiện ích, Kiểu)\n2. Xây dựng và tối ưu hóa mã\n3. Cấu hình triển khai trên Vercel\n4. Thiết lập đường ống CI/CD\n\n⚡ Thời gian hoàn thành: ~2 ngày\n\nHãy xác nhận để bắt đầu hoặc điều chỉnh kế hoạch!`;
+                const mockResponse = `RKIX3 đã phân tích yêu cầu của bạn:\n\n📋 Yêu cầu: ${userPrompt}\n\n✅ Kế hoạch thực hiện:\n1. Tạo cấu trúc dự án (Thành phần, Tiện ích, Kiểu dữ liệu)\n2. Xây dựng và tối ưu hóa mã nguồn\n3. Cấu hình triển khai trên Vercel\n4. Thiết lập quy trình CI/CD\n\n⚡ Thời gian hoàn thành dự kiến: ~2 ngày\n\nHãy xác nhận để bắt đầu hoặc điều chỉnh kế hoạch!`;
                 addChatMessage('assistant', mockResponse);
             }, 5500);
         }
@@ -964,15 +964,15 @@ Nếu tạo HTML preview, trả về một khối HTML hoàn chỉnh.`;
             addChatMessage('user', input);
             document.getElementById('fullChatInput').value = '';
             executionLogs = [];
-            document.getElementById('executionLogs').innerHTML = '<div class="text-zinc-500">[system] Khởi động RKIX3 AI Core...</div>';
+            document.getElementById('executionLogs').innerHTML = '<div class="text-zinc-500">[hệ_thống] Khởi động RKIX3 Trợ Lý AI...</div>';
             simulateAIExecution(input);
         }
 
         function clearChat() {
             chatHistory = [];
             document.getElementById('chatMessages').innerHTML = '';
-            executionLogs = ['[system] Khởi động RKIX3 AI Core...'];
-            document.getElementById('executionLogs').innerHTML = '<div class="text-zinc-500">[system] Khởi động RKIX3 AI Core...</div>';
+            executionLogs = ['[hệ_thống] Khởi động RKIX3 Trợ Lý AI...'];
+            document.getElementById('executionLogs').innerHTML = '<div class="text-zinc-500">[hệ_thống] Khởi động RKIX3 Trợ Lý AI...</div>';
             triggerToast('Đã xóa lịch sử chat!');
         }
 
