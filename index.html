@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>RKIX3 AI - Lập trình, Code, Build, Tự động hoá</title>
-    <!-- Tailwind CSS CDN -->
+    <meta name="description" content="RKIX3 AI Studio: web app lập trình, build, tự động hoá và điều phối CLI/mobile workflow.">
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
@@ -18,349 +18,350 @@
                         rkixBlue: '#0052cc',
                         rkixLightBlue: '#00d2ff',
                         rkixTextGray: '#52525b'
+                    },
+                    boxShadow: {
+                        rkix: '0 0 42px rgba(0, 82, 204, 0.18)'
                     }
                 }
             }
         }
     </script>
-    <!-- Lucide Icons -->
     <script src="https://unpkg.com/lucide@latest"></script>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
-        
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+
         body {
             font-family: 'Inter', sans-serif;
             background-color: #02050c;
-            /* Phông nền gradient xanh mờ phía sau giống hệt ảnh chụp thiết kế */
-            background-image: radial-gradient(circle at 50% 30%, rgba(0, 82, 204, 0.15) 0%, transparent 65%);
+            background-image:
+                linear-gradient(rgba(0, 210, 255, 0.025) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 210, 255, 0.025) 1px, transparent 1px),
+                radial-gradient(circle at 50% 24%, rgba(0, 82, 204, 0.22) 0%, transparent 58%),
+                radial-gradient(circle at 92% 8%, rgba(0, 210, 255, 0.11) 0%, transparent 28%);
+            background-size: 42px 42px, 42px 42px, auto, auto;
             background-attachment: fixed;
         }
 
-        /* Ép phẳng góc cạnh 100% cho mọi thành phần, bỏ sạch bo góc của Tailwind */
-        .square-flat {
-            border-radius: 0px !important;
+        .square-flat { border-radius: 0 !important; }
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+        .scanline::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+            background: linear-gradient(180deg, transparent, rgba(0, 210, 255, 0.055), transparent);
+            transform: translateY(-100%);
+            animation: scan 4.2s linear infinite;
         }
+        .animate-fade-in { animation: fadeIn 0.42s ease-out both; }
+        .terminal-caret::after { content: '▌'; color: #00d2ff; animation: blink 1s steps(1) infinite; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes scan { 0% { transform: translateY(-100%); } 100% { transform: translateY(100%); } }
+        @keyframes blink { 50% { opacity: 0; } }
 
-        /* Ẩn thanh cuộn */
-        .no-scrollbar::-webkit-scrollbar {
-            display: none;
+        .grid-glow {
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            background:
+                linear-gradient(120deg, transparent 0%, rgba(0, 210, 255, 0.035) 45%, transparent 70%),
+                radial-gradient(circle at 12% 78%, rgba(37, 99, 235, 0.16), transparent 28%);
+            mix-blend-mode: screen;
+            opacity: 0.9;
+            animation: auroraMove 12s ease-in-out infinite alternate;
         }
-        .no-scrollbar {
-            -ms-overflow-style: none;
-            scrollbar-width: none;
+        .glass-panel {
+            background: linear-gradient(180deg, rgba(8, 19, 38, 0.88), rgba(2, 5, 12, 0.72));
+            border: 1px solid rgba(30, 64, 175, 0.42);
+            box-shadow: 0 18px 80px rgba(0, 0, 0, 0.38), inset 0 1px 0 rgba(255, 255, 255, 0.035);
+        }
+        .hover-lift { transform: translateY(0); transition: transform 220ms ease, border-color 220ms ease, background 220ms ease, box-shadow 220ms ease; }
+        .hover-lift:hover { transform: translateY(-4px); box-shadow: 0 18px 42px rgba(0, 82, 204, 0.16); }
+        .metric-tile { background: linear-gradient(135deg, rgba(0, 82, 204, 0.12), rgba(0, 210, 255, 0.045)); }
+        .ticker-track { display: flex; width: max-content; animation: ticker 26s linear infinite; }
+        .orbital-dot { animation: orbitPulse 2.4s ease-in-out infinite; }
+        @keyframes auroraMove { from { transform: translate3d(-2%, -1%, 0) scale(1); } to { transform: translate3d(2%, 1%, 0) scale(1.04); } }
+        @keyframes ticker { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+        @keyframes orbitPulse { 0%, 100% { opacity: 0.42; transform: scale(0.8); } 50% { opacity: 1; transform: scale(1.08); } }
+        @media (prefers-reduced-motion: reduce) {
+            .scanline::after, .terminal-caret::after, .ticker-track, .orbital-dot, .grid-glow { animation: none !important; }
+            .hover-lift:hover { transform: none; }
         }
     </style>
 </head>
 <body class="text-zinc-200 min-h-screen flex flex-col overflow-x-hidden relative select-none">
+    <div class="grid-glow"></div>
 
-    <!-- KHUNG ĐIỀU CHỈNH GIẢ LẬP VIEW (PC / MOBILE) DÀNH CHO MÁY TÍNH -->
     <div class="fixed top-4 right-36 z-50 hidden lg:flex items-center bg-zinc-950 border border-zinc-800 p-1 square-flat shadow-2xl">
         <button onclick="switchViewMode('desktop')" id="pcViewBtn" class="px-3 py-1 text-[9px] font-bold uppercase square-flat bg-blue-600 text-white transition-all">Bản PC</button>
         <button onclick="switchViewMode('mobile')" id="moViewBtn" class="px-3 py-1 text-[9px] font-bold uppercase square-flat text-zinc-400 hover:text-white transition-all">Bản Mobile</button>
     </div>
 
-    <!-- MAIN WRAPPER -->
     <div id="appShell" class="flex flex-1 w-full min-h-screen relative z-10 transition-all duration-300">
-
-        <!-- ======================================================= -->
-        <!-- 1. SIDEBAR TRÁI (CHUẨN 100% THEO ẢNH 1000014377.JPG)     -->
-        <!-- ======================================================= -->
         <aside id="sidebar" class="fixed inset-y-0 left-0 w-[270px] bg-rkixSidebar border-r border-zinc-900/60 p-4 flex flex-col justify-between transform -translate-x-full md:translate-x-0 transition-transform duration-300 ease-out z-50 backdrop-blur-xl">
-            
             <div class="flex flex-col gap-6">
-                <!-- Phần Logo Đầu Trang Sidebar -->
                 <div class="flex items-center justify-between">
                     <div class="w-[170px] h-[45px] cursor-pointer flex items-center justify-start overflow-hidden" onclick="goHome()">
                         <img src="1780136894650-Photoroom.png" alt="RKIX3 Logo" class="h-full w-auto object-contain object-left drop-shadow-[0_0_12px_rgba(0,210,255,0.35)]">
                     </div>
-                    <!-- Nút đóng Sidebar trên di động -->
                     <button onclick="setMobileSidebar(false)" class="p-1.5 text-zinc-500 hover:text-white md:hidden hover:bg-zinc-900 square-flat transition-all">
                         <i data-lucide="x" class="w-5 h-5"></i>
                     </button>
                 </div>
 
-                <!-- Nút Đoạn chat mới (Bọc viền vuông xanh lam đậm chuẩn mẫu) -->
                 <button onclick="startFreshChat()" class="w-full flex items-center gap-3 px-4 py-3 bg-[#081326] hover:bg-[#0d1f3d] border border-blue-900/80 text-white square-flat text-xs font-semibold transition-all">
-                    <!-- Icon chat góc vuông phẳng -->
                     <i data-lucide="message-square" class="w-4.5 h-4.5 text-blue-500"></i>
                     <span>Đoạn chat mới</span>
                 </button>
 
-                <!-- Menu các tính năng chính -->
                 <nav class="space-y-1">
                     <button onclick="menuCommand('Tìm kiếm')" class="w-full flex items-center gap-3.5 px-3 py-2 text-zinc-400 hover:text-zinc-100 hover:bg-zinc-900/30 square-flat text-xs font-medium text-left transition-all">
-                        <i data-lucide="search" class="w-4.5 h-4.5 text-zinc-500"></i>
-                        <span>Tìm kiếm đoạn chat</span>
+                        <i data-lucide="search" class="w-4.5 h-4.5 text-zinc-500"></i><span>Tìm kiếm đoạn chat</span>
                     </button>
                     <button onclick="menuCommand('Thư viện')" class="w-full flex items-center gap-3.5 px-3 py-2 text-zinc-400 hover:text-zinc-100 hover:bg-zinc-900/30 square-flat text-xs font-medium text-left transition-all">
-                        <!-- Biểu tượng 4 vạch sách nghiêng chuẩn xác 100% -->
-                        <div class="flex gap-0.5 text-zinc-500 font-bold text-xs select-none">
-                            <span>/</span><span>/</span><span>/</span><span>\</span>
-                        </div>
-                        <span>Thư viện</span>
+                        <div class="flex gap-0.5 text-zinc-500 font-bold text-xs select-none"><span>/</span><span>/</span><span>/</span><span>\</span></div><span>Thư viện</span>
                     </button>
                     <button onclick="menuCommand('Tạo dự án')" class="w-full flex items-center justify-between px-3 py-2 text-zinc-400 hover:text-zinc-100 hover:bg-zinc-900/30 square-flat text-xs font-medium text-left transition-all">
-                        <div class="flex items-center gap-3.5">
-                            <i data-lucide="folder" class="w-4.5 h-4.5 text-zinc-500"></i>
-                            <span>Dự án</span>
-                        </div>
-                        <i data-lucide="plus" class="w-3.5 h-3.5 text-zinc-600"></i>
+                        <div class="flex items-center gap-3.5"><i data-lucide="folder" class="w-4.5 h-4.5 text-zinc-500"></i><span>Dự án</span></div><i data-lucide="plus" class="w-3.5 h-3.5 text-zinc-600"></i>
                     </button>
                     <button onclick="menuCommand('Ứng dụng')" class="w-full flex items-center gap-3.5 px-3 py-2 text-zinc-400 hover:text-zinc-100 hover:bg-zinc-900/30 square-flat text-xs font-medium text-left transition-all">
-                        <i data-lucide="layout-grid" class="w-4.5 h-4.5 text-zinc-500"></i>
-                        <span>Ứng dụng</span>
+                        <i data-lucide="layout-grid" class="w-4.5 h-4.5 text-zinc-500"></i><span>Ứng dụng</span>
                     </button>
                     <button onclick="menuCommand('Codex')" class="w-full flex items-center justify-between px-3 py-2 text-zinc-400 hover:text-zinc-100 hover:bg-zinc-900/30 square-flat text-xs font-medium text-left transition-all">
-                        <div class="flex items-center gap-3.5">
-                            <i data-lucide="terminal" class="w-4.5 h-4.5 text-zinc-500"></i>
-                            <span>Codex</span>
-                        </div>
-                        <i data-lucide="arrow-up-right" class="w-3.5 h-3.5 text-zinc-600"></i>
+                        <div class="flex items-center gap-3.5"><i data-lucide="terminal" class="w-4.5 h-4.5 text-zinc-500"></i><span>Codex</span></div><i data-lucide="arrow-up-right" class="w-3.5 h-3.5 text-zinc-600"></i>
                     </button>
-                    <button onclick="menuCommand('Thêm')" class="w-full flex items-center gap-3.5 px-3 py-2 text-zinc-400 hover:text-zinc-100 hover:bg-zinc-900/30 square-flat text-xs font-medium text-left transition-all">
-                        <i data-lucide="more-horizontal" class="w-4.5 h-4.5 text-zinc-500"></i>
-                        <span>Thêm</span>
+                    <button onclick="openCommandCenter()" class="w-full flex items-center gap-3.5 px-3 py-2 text-zinc-400 hover:text-zinc-100 hover:bg-zinc-900/30 square-flat text-xs font-medium text-left transition-all">
+                        <i data-lucide="command" class="w-4.5 h-4.5 text-zinc-500"></i><span>Command Center</span>
                     </button>
                 </nav>
 
-                <!-- Đã xoá mục lịch sử đoạn chat gần đây theo yêu cầu. -->
+                <div class="border border-zinc-900 bg-black/20 p-3 square-flat">
+                    <p class="text-[9px] font-black text-zinc-500 uppercase tracking-[0.22em] mb-3">Engine Stack</p>
+                    <div id="engineStatusList" class="space-y-2"></div>
+                </div>
             </div>
-
-            <!-- CHÂN SIDEBAR ĐỂ TRỐNG TUYỆT ĐỐI - KHÔNG CÓ BẤT KỲ THÔNG TIN ĐĂNG NHẬP HAY AVATAR NÀO THEO ĐÚNG ẢNH MẪU -->
         </aside>
 
-        <!-- Lớp phủ tối mờ trên Mobile -->
         <div id="drawerOverlay" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-40 hidden" onclick="setMobileSidebar(false)"></div>
 
-        <!-- ======================================================= -->
-        <!-- 2. WORKSPACE TRUNG TÂM (CHUẨN 100% THEO ẢNH 1000014378)  -->
-        <!-- ======================================================= -->
         <main class="flex-1 flex flex-col min-h-screen md:pl-[270px] pb-16 md:pb-0 relative z-10">
-            
-            <!-- HEADER TRÊN CÙNG -->
             <header class="flex items-center justify-between px-6 py-4 border-b border-zinc-900/80 bg-rkixDark/30 backdrop-blur-md">
                 <div class="flex items-center gap-3">
-                    <!-- Hamburger cho mobile -->
-                    <button onclick="setMobileSidebar(true)" class="md:hidden p-2 text-zinc-300 hover:text-white hover:bg-zinc-900 square-flat transition-all">
-                        <i data-lucide="menu" class="w-5 h-5"></i>
-                    </button>
-                    <!-- Scanner icon quét mặt cười giống hệt ảnh mẫu -->
-                    <button onclick="menuCommand('Quét mô mạch')" class="p-2 text-zinc-400 hover:text-white hover:bg-zinc-900 square-flat transition-all">
-                        <i data-lucide="scan-face" class="w-4.5 h-4.5"></i>
-                    </button>
+                    <button onclick="setMobileSidebar(true)" class="md:hidden p-2 text-zinc-300 hover:text-white hover:bg-zinc-900 square-flat transition-all"><i data-lucide="menu" class="w-5 h-5"></i></button>
+                    <button onclick="menuCommand('Quét mô mạch')" class="p-2 text-zinc-400 hover:text-white hover:bg-zinc-900 square-flat transition-all"><i data-lucide="scan-face" class="w-4.5 h-4.5"></i></button>
+                    <div class="hidden md:flex items-center gap-2 text-[10px] uppercase tracking-widest text-zinc-500">
+                        <span class="w-2 h-2 bg-emerald-400 square-flat animate-pulse"></span>
+                        <span id="currentModeLabel">OpenAI GPT-5.5 Ready</span>
+                    </div>
                 </div>
 
-                <!-- Các nút hành động bên phải (Mã API, Đăng nhập VUÔNG GÓC CẠNH) -->
                 <div class="flex items-center gap-3">
-                    <button onclick="toggleApiSettingsModal()" class="px-4 py-1.5 text-xs text-zinc-400 hover:text-white bg-zinc-900/80 border border-zinc-800 square-flat transition-all">
-                        Mã API
-                    </button>
-                    <button onclick="menuCommand('Đăng nhập')" class="px-5 py-2 text-xs font-bold text-white bg-blue-700 hover:bg-blue-600 square-flat transition-all duration-300 active:scale-95 shadow-lg shadow-blue-950/20">
-                        Đăng nhập
-                    </button>
+                    <button onclick="openCommandCenter()" class="hidden sm:inline-flex px-4 py-1.5 text-xs text-zinc-400 hover:text-white bg-zinc-900/80 border border-zinc-800 square-flat transition-all">Lệnh nhanh</button>
+                    <button onclick="toggleApiSettingsModal()" class="px-4 py-1.5 text-xs text-zinc-400 hover:text-white bg-zinc-900/80 border border-zinc-800 square-flat transition-all">Mã API</button>
+                    <button onclick="menuCommand('Đăng nhập')" class="px-5 py-2 text-xs font-bold text-white bg-blue-700 hover:bg-blue-600 square-flat transition-all duration-300 active:scale-95 shadow-lg shadow-blue-950/20">Đăng nhập</button>
                 </div>
             </header>
 
-            <!-- KHU VỰC CHỨA NỘI DUNG CHÍNH -->
-            <div class="flex-1 flex flex-col justify-center max-w-4xl w-full mx-auto px-4 md:px-8 py-8">
-                
-                <!-- KHỐI LOGO GIỮA MÀN HÌNH CHUẨN ĐÚNG FONT CHỮ THIẾT KẾ CỦA BẠN (1000014177.PNG) -->
-                <div id="brandCentral" class="text-center mb-10 flex flex-col items-center animate-fade-in">
-                    <!-- Logo chính dùng ảnh Photoroom mới của dự án -->
-                    <div class="w-full max-w-[520px] cursor-pointer drop-shadow-[0_0_24px_rgba(0,210,255,0.22)] mb-2" onclick="goHome()">
-                        <img src="1780136894650-Photoroom.png" alt="RKIX3 Logo" class="w-full h-auto object-contain mx-auto">
-                    </div>
-
-                    <h3 class="text-lg md:text-xl font-bold tracking-tight text-white mt-10 mb-6" id="welcomingText">
-                        Chúng ta nên bắt đầu từ đâu?
-                    </h3>
-                </div>
-
-                <!-- HỘP NHẬP CÂU HỎI PROMPT (GÓC VUÔNG 100%, PHẲNG LÌ HOÀN TOÀN THEO ẢNH 1000014378.JPG) -->
-                <div class="w-full max-w-2xl mx-auto mb-10">
-                    <div class="bg-rkixSidebar border border-rkixBorder p-3 square-flat shadow-2xl relative transition-all duration-300 focus-within:border-blue-500/80">
-                        <!-- Ô gõ văn bản -->
-                        <textarea id="promptInput" rows="2" 
-                            class="w-full bg-transparent text-sm text-zinc-100 placeholder-zinc-500 focus:outline-none resize-none leading-relaxed px-2"
-                            placeholder="Hỏi bất kỳ điều gì"></textarea>
-                        
-                        <!-- Actions chân của hộp (Toàn bộ các nút đều hình chữ nhật/hình vuông phẳng) -->
-                        <div class="flex items-center justify-between mt-3 px-1">
-                            <!-- Nút đính kèm (+) VUÔNG GÓC -->
-                            <button onclick="menuCommand('Đính kèm tệp')" class="w-8 h-8 flex items-center justify-center bg-zinc-900 hover:bg-zinc-800 border border-zinc-800 text-zinc-400 hover:text-white square-flat transition-all active:scale-95">
-                                <i data-lucide="plus" class="w-4 h-4"></i>
-                            </button>
-
-                            <!-- Microphone và nút Gửi VUÔNG GÓC -->
-                            <div class="flex items-center gap-2">
-                                <button id="micBtn" onclick="toggleVoiceRecording()" class="w-8 h-8 flex items-center justify-center bg-zinc-900 hover:bg-zinc-800 border border-zinc-800 text-zinc-400 hover:text-white square-flat transition-all">
-                                    <i data-lucide="mic" class="w-4 h-4"></i>
-                                </button>
-                                <button id="sendBtn" onclick="submitPromptToGemini()" class="w-8 h-8 flex items-center justify-center bg-zinc-800 text-zinc-600 cursor-not-allowed border border-zinc-800 square-flat transition-all duration-300" disabled>
-                                    <i data-lucide="arrow-up" class="w-4 h-4"></i>
-                                </button>
+            <div class="flex-1 flex flex-col justify-center max-w-6xl w-full mx-auto px-4 md:px-8 py-8">
+                <div id="brandCentral" class="mb-8 animate-fade-in">
+                    <div class="glass-panel square-flat overflow-hidden relative">
+                        <div class="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-cyan-400/80 to-transparent"></div>
+                        <div class="grid lg:grid-cols-[1.05fr_0.95fr] gap-6 p-5 md:p-8 items-center">
+                            <div class="text-center lg:text-left flex flex-col items-center lg:items-start">
+                                <div class="inline-flex items-center gap-2 px-3 py-1 border border-blue-900/60 bg-blue-950/20 text-[10px] font-black uppercase tracking-[0.22em] text-blue-100 square-flat mb-4">
+                                    <span class="w-2 h-2 bg-emerald-400 square-flat orbital-dot"></span>
+                                    RKIX3 Command OS · 2026 UI
+                                </div>
+                                <div class="w-full max-w-[520px] cursor-pointer drop-shadow-[0_0_30px_rgba(0,210,255,0.28)] mb-3" onclick="goHome()">
+                                    <img src="1780136894650-Photoroom.png" alt="RKIX3 Logo" class="w-full h-auto object-contain mx-auto lg:mx-0">
+                                </div>
+                                <h1 class="text-2xl md:text-4xl font-black text-white tracking-tight leading-tight">AI Studio mạnh cho lập trình, CLI, API và deploy trên mobile.</h1>
+                                <p class="mt-3 text-sm text-zinc-400 leading-relaxed max-w-2xl">RKIX3 gom prompt, provider AI, workflow Termux, HTML preview và command center vào một cockpit vuông góc, sáng rõ, chạy được ngay trên GitHub Pages.</p>
+                                <div class="flex flex-wrap items-center justify-center lg:justify-start gap-2 mt-5">
+                                    <button onclick="openCommandCenter()" class="px-4 py-2 text-xs font-bold bg-blue-600 hover:bg-blue-500 text-white square-flat transition-all active:scale-95">Mở Command Center</button>
+                                    <button onclick="runDemoBlueprint()" class="px-4 py-2 text-xs font-bold border border-zinc-800 bg-zinc-950 hover:bg-zinc-900 text-zinc-200 square-flat transition-all">Chạy demo blueprint</button>
+                                    <button onclick="toggleApiSettingsModal()" class="px-4 py-2 text-xs font-bold border border-blue-900/70 bg-blue-950/20 hover:bg-blue-950/40 text-blue-100 square-flat transition-all">Kết nối API</button>
+                                </div>
+                            </div>
+                            <div class="grid grid-cols-2 gap-3">
+                                <div class="metric-tile border border-blue-950/80 p-4 square-flat hover-lift"><p class="text-[9px] text-zinc-500 uppercase tracking-widest">Model chủ lực</p><p class="text-sm font-black text-white mt-1">GPT-5.5</p><p class="text-[10px] text-blue-200 mt-1">Responses-ready</p></div>
+                                <div class="metric-tile border border-blue-950/80 p-4 square-flat hover-lift"><p class="text-[9px] text-zinc-500 uppercase tracking-widest">Fallback</p><p class="text-sm font-black text-white mt-1">Gemini 2.5</p><p class="text-[10px] text-blue-200 mt-1">Flash workflow</p></div>
+                                <div class="metric-tile border border-blue-950/80 p-4 square-flat hover-lift"><p class="text-[9px] text-zinc-500 uppercase tracking-widest">CLI stack</p><p class="text-sm font-black text-white mt-1">Auth · DB · Deploy</p><p class="text-[10px] text-blue-200 mt-1">Termux-first</p></div>
+                                <div class="metric-tile border border-blue-950/80 p-4 square-flat hover-lift"><p class="text-[9px] text-zinc-500 uppercase tracking-widest">Live status</p><p id="liveClock" class="text-sm font-black text-white mt-1">--:--:-- UTC</p><p class="text-[10px] text-blue-200 mt-1">GitHub Pages safe</p></div>
+                                <div class="col-span-2 border border-zinc-900 bg-black/30 p-4 square-flat">
+                                    <div class="flex items-center justify-between mb-3"><span class="text-[10px] font-black uppercase tracking-[0.2em] text-zinc-500">Pipeline</span><span class="text-[10px] text-emerald-300">READY</span></div>
+                                    <div class="grid grid-cols-5 gap-1 text-[9px] text-center text-zinc-400">
+                                        <span class="border border-blue-900/60 py-1 square-flat">Prompt</span><span class="border border-blue-900/60 py-1 square-flat">Context</span><span class="border border-blue-900/60 py-1 square-flat">AI</span><span class="border border-blue-900/60 py-1 square-flat">Preview</span><span class="border border-blue-900/60 py-1 square-flat">Deploy</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="border-t border-blue-950/50 bg-black/20 overflow-hidden py-2">
+                            <div class="ticker-track text-[10px] uppercase tracking-[0.2em] text-zinc-500">
+                                <span class="px-6">OpenAI Responses</span><span class="px-6">Gemini fallback</span><span class="px-6">Local loopback OAuth</span><span class="px-6">Supabase / Neon</span><span class="px-6">Vercel / Netlify deploy</span><span class="px-6">Sandbox HTML Preview</span>
+                                <span class="px-6">OpenAI Responses</span><span class="px-6">Gemini fallback</span><span class="px-6">Local loopback OAuth</span><span class="px-6">Supabase / Neon</span><span class="px-6">Vercel / Netlify deploy</span><span class="px-6">Sandbox HTML Preview</span>
                             </div>
                         </div>
                     </div>
+                    <h3 class="text-center text-lg md:text-xl font-bold tracking-tight text-white mt-6 mb-4 terminal-caret" id="welcomingText">Chúng ta nên bắt đầu từ đâu?</h3>
                 </div>
 
-                <!-- HỘP WORKSPACE KẾT QUẢ AI SINH MÃ (VUÔNG GÓC) -->
-                <div id="workspace" class="w-full max-w-2xl mx-auto mb-8 hidden animate-fade-in">
+                <section class="w-full max-w-3xl mx-auto mb-6">
+                    <div class="bg-rkixSidebar border border-rkixBorder p-3 square-flat shadow-rkix relative transition-all duration-300 focus-within:border-blue-500/80 scanline overflow-hidden">
+                        <textarea id="promptInput" rows="3" class="w-full bg-transparent text-sm text-zinc-100 placeholder-zinc-500 focus:outline-none resize-none leading-relaxed px-2 relative z-10" placeholder="Hỏi RKIX3: tạo web app, CLI OAuth loopback, API server, database schema, test, deploy..."></textarea>
+                        <div id="attachedFileBadge" class="hidden mx-2 mt-2 px-2 py-1 bg-blue-950/30 border border-blue-900/60 text-[10px] text-blue-200 square-flat"></div>
+                        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mt-3 px-1 relative z-10">
+                            <div class="flex items-center gap-2">
+                                <input id="fileInput" type="file" class="hidden" accept=".txt,.md,.json,.js,.ts,.tsx,.jsx,.html,.css,.py,.go,.rs,.java,.kt,.swift,.php,.rb,.yml,.yaml,.toml,.env" onchange="handleFileAttach(event)">
+                                <button onclick="document.getElementById('fileInput').click()" class="w-8 h-8 flex items-center justify-center bg-zinc-900 hover:bg-zinc-800 border border-zinc-800 text-zinc-400 hover:text-white square-flat transition-all active:scale-95" title="Đính kèm tệp"><i data-lucide="plus" class="w-4 h-4"></i></button>
+                                <select id="taskMode" class="h-8 bg-zinc-950 border border-zinc-800 text-[10px] text-zinc-300 px-2 square-flat focus:outline-none focus:border-blue-500">
+                                    <option value="code">Code Builder</option>
+                                    <option value="agent">Agent Workflow</option>
+                                    <option value="security">Security Review</option>
+                                    <option value="deploy">Deploy Plan</option>
+                                </select>
+                            </div>
+                            <div class="flex items-center gap-2 justify-end">
+                                <button id="micBtn" onclick="toggleVoiceRecording()" class="w-8 h-8 flex items-center justify-center bg-zinc-900 hover:bg-zinc-800 border border-zinc-800 text-zinc-400 hover:text-white square-flat transition-all" title="Nhập giọng nói"><i data-lucide="mic" class="w-4 h-4"></i></button>
+                                <button onclick="runDemoBlueprint()" class="h-8 px-3 bg-zinc-900 hover:bg-zinc-800 border border-zinc-800 text-[10px] font-bold text-zinc-300 hover:text-white square-flat transition-all">Demo</button>
+                                <button id="sendBtn" onclick="submitPromptToAI()" class="w-8 h-8 flex items-center justify-center bg-zinc-800 text-zinc-600 cursor-not-allowed border border-zinc-800 square-flat transition-all duration-300" disabled><i data-lucide="arrow-up" class="w-4 h-4"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                    <p class="mt-2 text-[10px] text-zinc-600 text-center">Không đặt API key thật trong code public. Dùng key tạm ở modal hoặc backend proxy khi triển khai production.</p>
+                </section>
+
+                <section id="workspace" class="w-full max-w-4xl mx-auto mb-8 hidden animate-fade-in">
                     <div class="bg-rkixSidebar border border-zinc-900 overflow-hidden square-flat shadow-2xl">
-                        <!-- Header Workspace -->
                         <div class="flex items-center justify-between px-4 py-2.5 bg-zinc-950 border-b border-zinc-900">
-                            <div class="flex items-center gap-2">
-                                <span class="w-2 h-2 bg-blue-500 animate-pulse square-flat"></span>
-                                <span class="text-[9px] font-bold text-zinc-400 uppercase tracking-widest">RKIX3 CORE ENGINE</span>
-                            </div>
+                            <div class="flex items-center gap-2"><span class="w-2 h-2 bg-blue-500 animate-pulse square-flat"></span><span class="text-[9px] font-bold text-zinc-400 uppercase tracking-widest">RKIX3 CORE ENGINE</span></div>
                             <div class="flex items-center gap-1">
-                                <button onclick="copySourceCode()" class="p-1.5 text-zinc-400 hover:text-white hover:bg-zinc-900 square-flat transition-all" title="Copy mã nguồn">
-                                    <i data-lucide="copy" class="w-4 h-4"></i>
-                                </button>
-                                <button id="livePlayBtn" onclick="toggleOutputPreview()" class="p-1.5 text-zinc-400 hover:text-white hover:bg-zinc-900 square-flat transition-all hidden" title="Xem trước giao diện">
-                                    <i data-lucide="play" class="w-4 h-4"></i>
-                                </button>
+                                <button onclick="copySourceCode()" class="p-1.5 text-zinc-400 hover:text-white hover:bg-zinc-900 square-flat transition-all" title="Copy mã nguồn"><i data-lucide="copy" class="w-4 h-4"></i></button>
+                                <button onclick="downloadOutput()" class="p-1.5 text-zinc-400 hover:text-white hover:bg-zinc-900 square-flat transition-all" title="Tải kết quả"><i data-lucide="download" class="w-4 h-4"></i></button>
+                                <button id="livePlayBtn" onclick="toggleOutputPreview()" class="p-1.5 text-zinc-400 hover:text-white hover:bg-zinc-900 square-flat transition-all hidden" title="Xem trước giao diện"><i data-lucide="play" class="w-4 h-4"></i></button>
                             </div>
                         </div>
-                        
-                        <!-- Trạng thái tải -->
-                        <div id="loader" class="hidden flex flex-col items-center justify-center py-12 gap-3">
-                            <div class="w-8 h-8 border-2 border-blue-500 border-t-transparent animate-spin square-flat"></div>
-                            <span class="text-xs text-zinc-500 font-mono">RKIX3 AI đang lập trình cấu trúc...</span>
+
+                        <div id="loader" class="hidden flex flex-col items-center justify-center py-12 gap-4">
+                            <div class="w-9 h-9 border-2 border-blue-500 border-t-transparent animate-spin square-flat"></div>
+                            <div class="w-full max-w-sm space-y-2 px-6">
+                                <div class="h-1 bg-blue-950 overflow-hidden square-flat"><div id="progressBar" class="h-full bg-blue-500 w-1/4 transition-all duration-500"></div></div>
+                                <span id="loaderText" class="block text-center text-xs text-zinc-500 font-mono">RKIX3 đang lập trình cấu trúc...</span>
+                            </div>
                         </div>
 
-                        <!-- Khung văn bản chứa code -->
                         <div class="p-4">
-                            <pre id="outputCode" class="text-xs text-zinc-300 font-mono leading-relaxed overflow-x-auto whitespace-pre-wrap max-h-[380px] no-scrollbar"></pre>
-                            <!-- Live Preview Frame (VUÔNG PHẲNG) -->
-                            <iframe id="previewFrame" class="w-full h-80 border border-zinc-900 bg-white hidden mt-3 square-flat"></iframe>
+                            <div id="resultMeta" class="hidden mb-3 grid grid-cols-2 md:grid-cols-4 gap-2 text-[10px]"></div>
+                            <pre id="outputCode" class="text-xs text-zinc-300 font-mono leading-relaxed overflow-x-auto whitespace-pre-wrap max-h-[440px] no-scrollbar"></pre>
+                            <iframe id="previewFrame" title="RKIX3 live preview" sandbox="allow-scripts allow-forms" class="w-full h-96 border border-zinc-900 bg-white hidden mt-3 square-flat"></iframe>
                         </div>
                     </div>
-                </div>
+                </section>
 
-                <!-- LƯỚI 4 TÁC VỤ NHANH DÀNH CHO BẢN PC (TỰ ĐỘNG CHUYỂN DẠNG LƯỚI 2X2 TRÊN MOBILE) -->
-                <div id="cardsGrid" class="grid grid-cols-1 md:grid-cols-4 gap-4 w-full max-w-4xl mx-auto">
-                    <!-- Thẻ 1 -->
-                    <div onclick="loadPromptSample('Lập trình')" class="p-5 bg-rkixSidebar/40 hover:bg-zinc-900/30 border border-zinc-900 hover:border-blue-900/50 square-flat cursor-pointer transition-all duration-300 group">
-                        <div class="w-10 h-10 bg-blue-600/10 flex items-center justify-center text-blue-400 mb-4 transition-all square-flat">
-                            <i data-lucide="code-2" class="w-5 h-5"></i>
+                <section class="w-full max-w-6xl mx-auto mb-4 grid grid-cols-1 md:grid-cols-3 gap-3">
+                    <div class="md:col-span-2 border border-zinc-900 bg-rkixSidebar/35 p-4 square-flat">
+                        <p class="text-[10px] uppercase tracking-[0.22em] text-zinc-500 mb-3">Quick launch</p>
+                        <div class="flex flex-wrap gap-2">
+                            <button onclick="loadPromptSample('Lập trình')" class="px-3 py-2 text-[10px] font-bold border border-blue-950/80 bg-blue-950/20 hover:bg-blue-950/40 text-blue-100 square-flat transition-all">Code API</button>
+                            <button onclick="applyCommandPrompt('auth')" class="px-3 py-2 text-[10px] font-bold border border-blue-950/80 bg-blue-950/20 hover:bg-blue-950/40 text-blue-100 square-flat transition-all">OAuth CLI</button>
+                            <button onclick="applyCommandPrompt('db')" class="px-3 py-2 text-[10px] font-bold border border-blue-950/80 bg-blue-950/20 hover:bg-blue-950/40 text-blue-100 square-flat transition-all">Database</button>
+                            <button onclick="applyCommandPrompt('deploy')" class="px-3 py-2 text-[10px] font-bold border border-blue-950/80 bg-blue-950/20 hover:bg-blue-950/40 text-blue-100 square-flat transition-all">Deploy</button>
+                            <button onclick="menuCommand('Quét mô mạch')" class="px-3 py-2 text-[10px] font-bold border border-zinc-800 bg-zinc-950 hover:bg-zinc-900 text-zinc-200 square-flat transition-all">Review hệ thống</button>
                         </div>
-                        <h4 class="text-xs font-bold text-white mb-1">Lập trình</h4>
-                        <p class="text-[10px] text-zinc-500 line-clamp-2">Viết code, debug và tối ưu hóa hệ thống</p>
                     </div>
-
-                    <!-- Thẻ 2 -->
-                    <div onclick="loadPromptSample('Build')" class="p-5 bg-rkixSidebar/40 hover:bg-zinc-900/30 border border-zinc-900 hover:border-blue-900/50 square-flat cursor-pointer transition-all duration-300 group">
-                        <div class="w-10 h-10 bg-blue-600/10 flex items-center justify-center text-blue-400 mb-4 transition-all square-flat">
-                            <i data-lucide="box" class="w-5 h-5"></i>
-                        </div>
-                        <h4 class="text-xs font-bold text-white mb-1">Build</h4>
-                        <p class="text-[10px] text-zinc-500 line-clamp-2">Xây dựng sản phẩm nhanh chóng</p>
+                    <div class="border border-amber-500/30 bg-amber-950/10 p-4 square-flat">
+                        <p class="text-[10px] uppercase tracking-[0.22em] text-amber-300 mb-1">Creator honor</p>
+                        <p class="text-xs font-bold text-white">Tôn vinh người tạo RKIX3</p>
+                        <p class="text-[10px] text-zinc-500 mt-1">Builder mindset · Mobile-first · Automation-first.</p>
                     </div>
+                </section>
 
-                    <!-- Thẻ 3 -->
-                    <div onclick="loadPromptSample('Tự động hoá')" class="p-5 bg-rkixSidebar/40 hover:bg-zinc-900/30 border border-zinc-900 hover:border-blue-900/50 square-flat cursor-pointer transition-all duration-300 group">
-                        <div class="w-10 h-10 bg-blue-600/10 flex items-center justify-center text-blue-400 mb-4 transition-all square-flat">
-                            <i data-lucide="settings" class="w-5 h-5"></i>
-                        </div>
-                        <h4 class="text-xs font-bold text-white mb-1">Tự động hoá</h4>
-                        <p class="text-[10px] text-zinc-500 line-clamp-2">Tự động hoá quy trình và công việc</p>
-                    </div>
-
-                    <!-- Thẻ 4 -->
-                    <div onclick="loadPromptSample('AI thông minh')" class="p-5 bg-rkixSidebar/40 hover:bg-zinc-900/30 border border-zinc-900 hover:border-blue-900/50 square-flat cursor-pointer transition-all duration-300 group">
-                        <div class="w-10 h-10 bg-blue-600/10 flex items-center justify-center text-blue-400 mb-4 transition-all square-flat">
-                            <i data-lucide="bot" class="w-5 h-5"></i>
-                        </div>
-                        <h4 class="text-xs font-bold text-white mb-1">AI thông minh</h4>
-                        <p class="text-[10px] text-zinc-500 line-clamp-2">Hỗ trợ bởi AI thế hệ mới</p>
-                    </div>
-                </div>
-
+                <section id="cardsGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-4 w-full max-w-6xl mx-auto">
+                    <div onclick="loadPromptSample('Lập trình')" class="p-5 bg-rkixSidebar/40 hover:bg-zinc-900/30 border border-zinc-900 hover:border-blue-900/50 square-flat cursor-pointer hover-lift duration-300 group"><div class="w-10 h-10 bg-blue-600/10 flex items-center justify-center text-blue-400 mb-4 square-flat"><i data-lucide="code-2" class="w-5 h-5"></i></div><h4 class="text-xs font-bold text-white mb-1">Lập trình</h4><p class="text-[10px] text-zinc-500">Viết code, debug và tối ưu hệ thống</p></div>
+                    <div onclick="loadPromptSample('Build')" class="p-5 bg-rkixSidebar/40 hover:bg-zinc-900/30 border border-zinc-900 hover:border-blue-900/50 square-flat cursor-pointer hover-lift duration-300 group"><div class="w-10 h-10 bg-blue-600/10 flex items-center justify-center text-blue-400 mb-4 square-flat"><i data-lucide="box" class="w-5 h-5"></i></div><h4 class="text-xs font-bold text-white mb-1">Build UI</h4><p class="text-[10px] text-zinc-500">Tạo giao diện phẳng, sắc, responsive</p></div>
+                    <div onclick="loadPromptSample('Tự động hoá')" class="p-5 bg-rkixSidebar/40 hover:bg-zinc-900/30 border border-zinc-900 hover:border-blue-900/50 square-flat cursor-pointer hover-lift duration-300 group"><div class="w-10 h-10 bg-blue-600/10 flex items-center justify-center text-blue-400 mb-4 square-flat"><i data-lucide="settings" class="w-5 h-5"></i></div><h4 class="text-xs font-bold text-white mb-1">Tự động hoá</h4><p class="text-[10px] text-zinc-500">Auth CLI, GitHub, CI, deploy</p></div>
+                    <div onclick="loadPromptSample('AI thông minh')" class="p-5 bg-rkixSidebar/40 hover:bg-zinc-900/30 border border-zinc-900 hover:border-blue-900/50 square-flat cursor-pointer hover-lift duration-300 group"><div class="w-10 h-10 bg-blue-600/10 flex items-center justify-center text-blue-400 mb-4 square-flat"><i data-lucide="bot" class="w-5 h-5"></i></div><h4 class="text-xs font-bold text-white mb-1">AI thông minh</h4><p class="text-[10px] text-zinc-500">Provider, model, context file</p></div>
+                    <div onclick="loadPromptSample('CLI OAuth')" class="p-5 bg-rkixSidebar/40 hover:bg-zinc-900/30 border border-zinc-900 hover:border-blue-900/50 square-flat cursor-pointer hover-lift duration-300 group"><div class="w-10 h-10 bg-blue-600/10 flex items-center justify-center text-blue-400 mb-4 square-flat"><i data-lucide="key-round" class="w-5 h-5"></i></div><h4 class="text-xs font-bold text-white mb-1">CLI OAuth</h4><p class="text-[10px] text-zinc-500">Local loopback Termux flow</p></div>
+                    <div onclick="loadPromptSample('Database')" class="p-5 bg-rkixSidebar/40 hover:bg-zinc-900/30 border border-zinc-900 hover:border-blue-900/50 square-flat cursor-pointer hover-lift duration-300 group"><div class="w-10 h-10 bg-blue-600/10 flex items-center justify-center text-blue-400 mb-4 square-flat"><i data-lucide="database" class="w-5 h-5"></i></div><h4 class="text-xs font-bold text-white mb-1">Database</h4><p class="text-[10px] text-zinc-500">Supabase/Neon schema + env</p></div>
+                </section>
             </div>
-
         </main>
 
-        <!-- ======================================================= -->
-        <!-- 3. THANH DIỀU HƯỚNG DƯỚI (MOBILE CHUẨN 100% THEO ẢNH)   -->
-        <!-- ======================================================= -->
         <nav id="mobileBottomBar" class="md:hidden fixed bottom-0 left-0 right-0 h-16 bg-rkixSidebar border-t border-zinc-900 flex items-center justify-around px-4 z-40 backdrop-blur">
-            <button onclick="goHome()" class="flex flex-col items-center gap-1 text-blue-500">
-                <i data-lucide="home" class="w-5 h-5"></i>
-                <span class="text-[9px] font-bold">Trang chủ</span>
-            </button>
-            <button onclick="menuCommand('Thư viện')" class="flex flex-col items-center gap-1 text-zinc-500 hover:text-white">
-                <!-- Icon 4 vạch sách nghiêng chuẩn ảnh mẫu -->
-                <span class="text-zinc-500 font-mono text-xs font-bold mb-1 leading-none">|||\</span>
-                <span class="text-[9px] font-bold">Thư viện</span>
-            </button>
-            <button onclick="menuCommand('Dự án')" class="flex flex-col items-center gap-1 text-zinc-500 hover:text-white">
-                <i data-lucide="folder" class="w-5 h-5"></i>
-                <span class="text-[9px] font-bold">Dự án</span>
-            </button>
-            <button onclick="menuCommand('Ứng dụng')" class="flex flex-col items-center gap-1 text-zinc-500 hover:text-white">
-                <i data-lucide="layout-grid" class="w-5 h-5"></i>
-                <span class="text-[9px] font-bold">Ứng dụng</span>
-            </button>
-            <button onclick="toggleApiSettingsModal()" class="flex flex-col items-center gap-1 text-zinc-500 hover:text-white">
-                <i data-lucide="settings" class="w-5 h-5"></i>
-                <span class="text-[9px] font-bold">Cài đặt</span>
-            </button>
+            <button onclick="goHome()" class="flex flex-col items-center gap-1 text-blue-500"><i data-lucide="home" class="w-5 h-5"></i><span class="text-[9px] font-bold">Trang chủ</span></button>
+            <button onclick="openCommandCenter()" class="flex flex-col items-center gap-1 text-zinc-500 hover:text-white"><i data-lucide="command" class="w-5 h-5"></i><span class="text-[9px] font-bold">Lệnh</span></button>
+            <button onclick="menuCommand('Dự án')" class="flex flex-col items-center gap-1 text-zinc-500 hover:text-white"><i data-lucide="folder" class="w-5 h-5"></i><span class="text-[9px] font-bold">Dự án</span></button>
+            <button onclick="menuCommand('Ứng dụng')" class="flex flex-col items-center gap-1 text-zinc-500 hover:text-white"><i data-lucide="layout-grid" class="w-5 h-5"></i><span class="text-[9px] font-bold">Ứng dụng</span></button>
+            <button onclick="toggleApiSettingsModal()" class="flex flex-col items-center gap-1 text-zinc-500 hover:text-white"><i data-lucide="settings" class="w-5 h-5"></i><span class="text-[9px] font-bold">Cài đặt</span></button>
         </nav>
-
     </div>
 
-    <!-- ========================================== -->
-    <!-- CÁC POPUP THIẾT LẬP (VUÔNG VỰC CẠNH)       -->
-    <!-- ========================================== -->
-
-    <!-- Cấu hình API Key -->
     <div id="apiKeyModal" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
-        <div class="bg-rkixSidebar border border-zinc-800 w-full max-w-sm overflow-hidden square-flat shadow-2xl animate-fade-in">
+        <div class="bg-rkixSidebar border border-zinc-800 w-full max-w-lg overflow-hidden square-flat shadow-2xl animate-fade-in">
             <div class="px-5 py-3.5 bg-zinc-900 border-b border-zinc-800 flex items-center justify-between">
-                <h3 class="text-xs font-bold text-white uppercase tracking-wider flex items-center gap-2">
-                    <i data-lucide="key" class="w-4 h-4 text-blue-400"></i>
-                    <span>Cổng API Gemini</span>
-                </h3>
-                <button onclick="toggleApiSettingsModal()" class="p-1 text-zinc-400 hover:text-white hover:bg-zinc-800 square-flat">
-                    <i data-lucide="x" class="w-4.5 h-4.5"></i>
-                </button>
+                <h3 class="text-xs font-bold text-white uppercase tracking-wider flex items-center gap-2"><i data-lucide="key" class="w-4 h-4 text-blue-400"></i><span>Cổng API RKIX3</span></h3>
+                <button onclick="toggleApiSettingsModal()" class="p-1 text-zinc-400 hover:text-white hover:bg-zinc-800 square-flat"><i data-lucide="x" class="w-4.5 h-4.5"></i></button>
             </div>
             <div class="p-5 space-y-4">
-                <p class="text-[11px] text-zinc-400 leading-relaxed">
-                    Hệ thống chạy tự động qua cổng mẫu. Chèn khóa API Gemini cá nhân của bạn để sử dụng tốc độ không giới hạn.
-                </p>
-                <div>
-                    <label class="block text-[10px] font-bold text-zinc-500 uppercase mb-1.5">Mã API của bạn:</label>
-                    <input id="apiKeyValue" type="password" class="w-full bg-zinc-950 border border-zinc-850 focus:border-blue-500 px-3 py-2 text-xs text-white focus:outline-none square-flat" placeholder="AIzaSy...">
+                <p class="text-[11px] text-zinc-400 leading-relaxed">Chọn provider AI. OpenAI dùng Responses API với GPT-5.5 cho coding/pro workflow; Gemini giữ làm lựa chọn phụ. Nếu không có key, RKIX3 chạy Demo Mode để sinh blueprint offline.</p>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    <div><label class="block text-[10px] font-bold text-zinc-500 uppercase mb-1.5">Provider</label><select id="providerSelect" class="w-full bg-zinc-950 border border-zinc-800 focus:border-blue-500 px-3 py-2 text-xs text-white focus:outline-none square-flat"><option value="openai">OpenAI Responses</option><option value="gemini">Google Gemini</option><option value="demo">Demo Offline</option></select></div>
+                    <div><label class="block text-[10px] font-bold text-zinc-500 uppercase mb-1.5">Model</label><input id="modelValue" class="w-full bg-zinc-950 border border-zinc-800 focus:border-blue-500 px-3 py-2 text-xs text-white focus:outline-none square-flat" placeholder="gpt-5.5"></div>
                 </div>
-                <div class="flex items-center justify-end gap-2 pt-2">
-                    <button onclick="toggleApiSettingsModal()" class="px-3 py-1.5 text-xs text-zinc-400 hover:text-white square-flat transition-all">Đóng</button>
-                    <button onclick="saveCustomApiKey()" class="px-4 py-1.5 text-xs bg-blue-600 hover:bg-blue-500 text-white font-semibold square-flat transition-all">Áp dụng</button>
-                </div>
+                <div><label class="block text-[10px] font-bold text-zinc-500 uppercase mb-1.5">Mã API tạm thời</label><input id="apiKeyValue" type="password" class="w-full bg-zinc-950 border border-zinc-800 focus:border-blue-500 px-3 py-2 text-xs text-white focus:outline-none square-flat" placeholder="sk-... hoặc AIzaSy..."></div>
+                <div><label class="block text-[10px] font-bold text-zinc-500 uppercase mb-1.5">Base URL proxy tuỳ chọn</label><input id="baseUrlValue" class="w-full bg-zinc-950 border border-zinc-800 focus:border-blue-500 px-3 py-2 text-xs text-white focus:outline-none square-flat" placeholder="https://api.openai.com/v1 hoặc /api/ai"></div>
+                <div class="flex items-center justify-end gap-2 pt-2"><button onclick="toggleApiSettingsModal()" class="px-3 py-1.5 text-xs text-zinc-400 hover:text-white square-flat transition-all">Đóng</button><button onclick="saveAISettings()" class="px-4 py-1.5 text-xs bg-blue-600 hover:bg-blue-500 text-white font-semibold square-flat transition-all">Áp dụng</button></div>
             </div>
         </div>
     </div>
 
-    <!-- Toast báo lỗi/thành công (VUÔNG GÓC CẠNH 100%) -->
-    <div id="toast" class="fixed bottom-20 md:bottom-6 right-6 bg-zinc-900 border border-zinc-800 text-zinc-100 text-xs px-4 py-3 square-flat shadow-2xl flex items-center gap-2 transform translate-y-20 opacity-0 transition-all duration-300 z-50">
-        <i data-lucide="info" id="toastIcon" class="w-4 h-4 text-blue-400"></i>
-        <span id="toastText">Hệ thống thông báo!</span>
+    <div id="commandModal" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
+        <div class="bg-rkixSidebar border border-zinc-800 w-full max-w-3xl overflow-hidden square-flat shadow-2xl animate-fade-in">
+            <div class="px-5 py-3.5 bg-zinc-900 border-b border-zinc-800 flex items-center justify-between">
+                <h3 class="text-xs font-bold text-white uppercase tracking-wider flex items-center gap-2"><i data-lucide="command" class="w-4 h-4 text-blue-400"></i><span>RKIX3 Command Center</span></h3>
+                <button onclick="openCommandCenter(false)" class="p-1 text-zinc-400 hover:text-white hover:bg-zinc-800 square-flat"><i data-lucide="x" class="w-4.5 h-4.5"></i></button>
+            </div>
+            <div id="commandGrid" class="p-5 grid grid-cols-1 md:grid-cols-2 gap-3"></div>
+        </div>
     </div>
 
-    <!-- ========================================== -->
-    <!-- SỰ KIỆN JAVASCRIPT ĐIỀU HƯỚNG              -->
-    <!-- ========================================== -->
+    <div id="toast" class="fixed bottom-20 md:bottom-6 right-6 bg-zinc-900 border border-zinc-800 text-zinc-100 text-xs px-4 py-3 square-flat shadow-2xl flex items-center gap-2 transform translate-y-20 opacity-0 transition-all duration-300 z-50"><i data-lucide="info" id="toastIcon" class="w-4 h-4 text-blue-400"></i><span id="toastText">Hệ thống thông báo!</span></div>
+
     <script>
-        // Khởi động các Icons
         lucide.createIcons();
 
-        // Biến cấu hình
-        let customApiKey = "";
-        const fallbackModel = "gemini-2.5-flash-preview-09-2025";
-        let isRecording = false;
+        const MODEL_DEFAULTS = {
+            openai: 'gpt-5.5',
+            gemini: 'gemini-2.5-flash',
+            demo: 'rkix3-demo-core'
+        };
 
-        // Element DOM
+        const engineStack = [
+            { name: 'OpenAI', model: 'gpt-5.5', state: 'primary' },
+            { name: 'Gemini', model: '2.5 Flash', state: 'fallback' },
+            { name: 'Demo', model: 'offline', state: 'safe' }
+        ];
+
+        const workflowCommands = [
+            { key: 'auth', title: 'mycli auth <service>', icon: 'key-round', prompt: 'Viết script Node.js OAuth CLI Flow cho Termux: mở trình duyệt, chạy local loopback server, nhận callback, lưu token an toàn vào .env cho service GitHub/Supabase/OpenAI.' },
+            { key: 'init', title: 'mycli init <repo>', icon: 'folder-plus', prompt: 'Tạo CLI Node.js khởi tạo dự án: clone GitHub repo, cài dependencies, tạo .env mẫu, phát hiện framework và in hướng dẫn chạy trên Termux.' },
+            { key: 'ai', title: 'mycli ai <file> "task"', icon: 'bot', prompt: 'Thiết kế lệnh CLI đọc cây dự án, gom context file liên quan, gọi AI, hiển thị git diff xanh/đỏ, hỏi xác nhận rồi commit/push.' },
+            { key: 'db', title: 'mycli db setup', icon: 'database', prompt: 'Xây dựng lệnh cấp phát database Supabase/Neon qua API, lấy connection string, ghi vào .env, sinh migration SQL và test kết nối.' },
+            { key: 'deploy', title: 'mycli deploy', icon: 'rocket', prompt: 'Tạo lệnh deploy mobile-first: chạy test, commit, push GitHub, gọi Vercel/Netlify API, theo dõi build log, mở URL live bằng termux-open.' },
+            { key: 'rkix3', title: 'rkix3 full-stack blueprint', icon: 'cpu', prompt: 'Lập blueprint web app RKIX3 mạnh nhất: frontend, API proxy, auth, database, AI providers, queue, observability, security, CI/CD, mobile Termux workflow.' }
+        ];
+
+        let aiSettings = {
+            provider: localStorage.getItem('rkix_provider') || 'demo',
+            apiKey: '',
+            model: localStorage.getItem('rkix_model') || MODEL_DEFAULTS.demo,
+            baseUrl: localStorage.getItem('rkix_base_url') || ''
+        };
+        let isRecording = false;
+        let attachedContext = '';
+        let recognitionInstance = null;
+
         const promptInput = document.getElementById('promptInput');
         const sendBtn = document.getElementById('sendBtn');
         const brandCentral = document.getElementById('brandCentral');
@@ -369,10 +370,70 @@
         const outputCode = document.getElementById('outputCode');
         const previewFrame = document.getElementById('previewFrame');
         const livePlayBtn = document.getElementById('livePlayBtn');
+        const resultMeta = document.getElementById('resultMeta');
+        const loaderText = document.getElementById('loaderText');
+        const progressBar = document.getElementById('progressBar');
+        const currentModeLabel = document.getElementById('currentModeLabel');
 
-        // Theo dõi ký tự gõ phím để kích hoạt nút gửi
-        promptInput.addEventListener('input', function() {
-            if (this.value.trim().length > 0) {
+        function initialize() {
+            renderEngineStatus();
+            renderCommandCenter();
+            hydrateSettingsForm();
+            updateModeLabel();
+            refreshLiveClock();
+            setInterval(refreshLiveClock, 1000);
+            promptInput.addEventListener('input', syncSendButton);
+            promptInput.addEventListener('keydown', (event) => {
+                if ((event.ctrlKey || event.metaKey) && event.key === 'Enter') {
+                    submitPromptToAI();
+                }
+            });
+            syncSendButton();
+        }
+
+        function refreshLiveClock() {
+            const clock = document.getElementById('liveClock');
+            if (!clock) return;
+            clock.textContent = new Date().toLocaleTimeString('vi-VN', { hour12: false, timeZone: 'UTC' }) + ' UTC';
+        }
+
+        function renderEngineStatus() {
+            const list = document.getElementById('engineStatusList');
+            list.innerHTML = engineStack.map(item => `
+                <div class="flex items-center justify-between gap-2 text-[10px]">
+                    <span class="text-zinc-400">${item.name}</span>
+                    <span class="px-2 py-0.5 border border-zinc-800 bg-zinc-950 text-blue-200 square-flat">${item.model}</span>
+                </div>
+            `).join('');
+        }
+
+        function renderCommandCenter() {
+            const commandGrid = document.getElementById('commandGrid');
+            commandGrid.innerHTML = workflowCommands.map(command => `
+                <button onclick="applyCommandPrompt('${command.key}')" class="text-left p-4 border border-zinc-900 hover:border-blue-800 bg-black/20 hover:bg-blue-950/20 square-flat transition-all">
+                    <div class="flex items-center gap-3 mb-2">
+                        <span class="w-8 h-8 bg-blue-600/10 text-blue-300 flex items-center justify-center square-flat"><i data-lucide="${command.icon}" class="w-4 h-4"></i></span>
+                        <span class="text-xs font-bold text-white">${command.title}</span>
+                    </div>
+                    <p class="text-[10px] text-zinc-500 leading-relaxed">${command.prompt}</p>
+                </button>
+            `).join('');
+            lucide.createIcons();
+        }
+
+        function hydrateSettingsForm() {
+            document.getElementById('providerSelect').value = aiSettings.provider;
+            document.getElementById('modelValue').value = aiSettings.model;
+            document.getElementById('baseUrlValue').value = aiSettings.baseUrl;
+        }
+
+        function updateModeLabel() {
+            const providerName = aiSettings.provider === 'openai' ? 'OpenAI' : aiSettings.provider === 'gemini' ? 'Gemini' : 'Demo';
+            currentModeLabel.textContent = `${providerName} ${aiSettings.model} Ready`;
+        }
+
+        function syncSendButton() {
+            if (promptInput.value.trim().length > 0) {
                 sendBtn.removeAttribute('disabled');
                 sendBtn.classList.remove('bg-zinc-800', 'text-zinc-600', 'cursor-not-allowed');
                 sendBtn.classList.add('bg-blue-600', 'text-white', 'hover:bg-blue-500');
@@ -381,285 +442,450 @@
                 sendBtn.classList.add('bg-zinc-800', 'text-zinc-600', 'cursor-not-allowed');
                 sendBtn.classList.remove('bg-blue-600', 'text-white', 'hover:bg-blue-500');
             }
-        });
+        }
 
-        // Bật tắt Sidebar trên di động
         function setMobileSidebar(isOpen) {
             const sidebar = document.getElementById('sidebar');
             const overlay = document.getElementById('drawerOverlay');
-            if (isOpen) {
-                sidebar.classList.remove('-translate-x-full');
-                overlay.classList.remove('hidden');
-            } else {
-                sidebar.classList.add('-translate-x-full');
-                overlay.classList.add('hidden');
-            }
+            sidebar.classList.toggle('-translate-x-full', !isOpen);
+            overlay.classList.toggle('hidden', !isOpen);
         }
 
-        // Đẩy Toast thông báo (Cạnh vuông phẳng lì)
         function triggerToast(message, type = 'success') {
             const toast = document.getElementById('toast');
             const toastText = document.getElementById('toastText');
             const toastIcon = document.getElementById('toastIcon');
-
             toastText.textContent = message;
-            if (type === 'error') {
-                toastIcon.setAttribute('data-lucide', 'alert-circle');
-                toastIcon.className = "w-4 h-4 text-rose-500";
-            } else {
-                toastIcon.setAttribute('data-lucide', 'check-circle-2');
-                toastIcon.className = "w-4 h-4 text-emerald-400";
-            }
+            const iconMap = { error: 'alert-circle', warning: 'triangle-alert', success: 'check-circle-2' };
+            const colorMap = { error: 'text-rose-500', warning: 'text-amber-400', success: 'text-emerald-400' };
+            toastIcon.setAttribute('data-lucide', iconMap[type] || iconMap.success);
+            toastIcon.className = `w-4 h-4 ${colorMap[type] || colorMap.success}`;
             lucide.createIcons();
-
             toast.classList.remove('translate-y-20', 'opacity-0');
             toast.classList.add('translate-y-0', 'opacity-100');
-
             setTimeout(() => {
                 toast.classList.add('translate-y-20', 'opacity-0');
                 toast.classList.remove('translate-y-0', 'opacity-100');
-            }, 3000);
+            }, 3200);
         }
 
-        // Bật tắt Modal API
         function toggleApiSettingsModal() {
             document.getElementById('apiKeyModal').classList.toggle('hidden');
+            hydrateSettingsForm();
         }
 
-        function saveCustomApiKey() {
-            customApiKey = document.getElementById('apiKeyValue').value.trim();
-            triggerToast("Đã lưu API Key cá nhân thành công!");
+        function saveAISettings() {
+            const provider = document.getElementById('providerSelect').value;
+            const apiKey = document.getElementById('apiKeyValue').value.trim();
+            const model = document.getElementById('modelValue').value.trim() || MODEL_DEFAULTS[provider];
+            const baseUrl = document.getElementById('baseUrlValue').value.trim();
+            aiSettings = { provider, apiKey, model, baseUrl };
+            localStorage.setItem('rkix_provider', provider);
+            localStorage.setItem('rkix_model', model);
+            localStorage.setItem('rkix_base_url', baseUrl);
+            updateModeLabel();
+            triggerToast('Đã cập nhật cổng AI RKIX3.');
             toggleApiSettingsModal();
         }
 
-        // Đưa màn hình về trạng thái trang chủ
+        function openCommandCenter(forceOpen = true) {
+            document.getElementById('commandModal').classList.toggle('hidden', !forceOpen);
+            lucide.createIcons();
+        }
+
+        function applyCommandPrompt(key) {
+            const command = workflowCommands.find(item => item.key === key);
+            if (!command) return;
+            promptInput.value = command.prompt;
+            document.getElementById('taskMode').value = key === 'deploy' ? 'deploy' : key === 'ai' ? 'agent' : 'code';
+            promptInput.dispatchEvent(new Event('input'));
+            openCommandCenter(false);
+            promptInput.focus();
+            triggerToast(`Đã nạp lệnh: ${command.title}`);
+        }
+
         function goHome() {
-            promptInput.value = "";
+            promptInput.value = '';
             promptInput.dispatchEvent(new Event('input'));
             workspace.classList.add('hidden');
             brandCentral.classList.remove('scale-75', 'opacity-50');
-            triggerToast("Đã quay về trang chủ.");
+            previewFrame.classList.add('hidden');
+            resultMeta.classList.add('hidden');
+            triggerToast('Đã quay về trang chủ.');
         }
 
-        // Chọn tác vụ nhanh từ thẻ
         function loadPromptSample(category) {
-            let value = "";
-            switch (category) {
-                case 'Lập trình':
-                    value = "Hãy tạo một API kiểm thử hoạt động tự động của DNS rkix.com bằng Node.js.";
-                    break;
-                case 'Build':
-                    value = "Thiết kế giao diện trang chủ tối giản vuông góc cạnh phẳng lì bằng mã HTML và Tailwind CSS.";
-                    break;
-                case 'Tự động hoá':
-                    value = "Lập trình một đoạn mã đồng bộ tập tin JSON từ local lên Cloud bằng JS.";
-                    break;
-                case 'AI thông minh':
-                    value = "Tư vấn thiết lập bảo mật cấp cao nhất cho các dự án tích hợp API Gemini.";
-                    break;
-                default:
-                    value = `Thực thi tác vụ liên quan đến: ${category}`;
-            }
-
-            promptInput.value = value;
+            const samples = {
+                'Lập trình': 'Hãy tạo API Node.js kiểm tra DNS/HTTP health của rkix.com, có retry, timeout, JSON response và unit test.',
+                'Build': 'Thiết kế landing page RKIX3 dạng phẳng vuông góc bằng HTML/Tailwind, có hero, feature grid, pricing và CTA.',
+                'Tự động hoá': 'Lập trình workflow tự động đồng bộ file JSON local lên GitHub, tạo commit, push và ghi log lỗi rõ ràng.',
+                'AI thông minh': 'Tư vấn kiến trúc tích hợp OpenAI Responses API + Gemini fallback cho web app RKIX3, bảo mật key bằng backend proxy.',
+                'CLI OAuth': workflowCommands[0].prompt,
+                'Database': workflowCommands[3].prompt
+            };
+            promptInput.value = samples[category] || `Thực thi tác vụ liên quan đến: ${category}`;
             promptInput.dispatchEvent(new Event('input'));
             promptInput.focus();
             triggerToast(`Đã tải nội dung mẫu: ${category}`);
         }
 
-        // LIÊN KẾT GỌI API GEMINI 2.5 FLASH ĐỂ SINH CODE THỰC TẾ
-        async function submitPromptToGemini() {
+        function menuCommand(action) {
+            const menuPrompts = {
+                'Tìm kiếm': 'Tạo chức năng tìm kiếm đoạn chat localStorage cho RKIX3: index theo tiêu đề, tag, nội dung và highlight keyword.',
+                'Thư viện': 'Thiết kế thư viện prompt/code snippet cho RKIX3 có danh mục API, CLI, database, deploy và nút copy nhanh.',
+                'Tạo dự án': workflowCommands[1].prompt,
+                'Dự án': workflowCommands[1].prompt,
+                'Ứng dụng': 'Tạo module quản lý ứng dụng RKIX3: danh sách app, trạng thái build, link preview, biến môi trường và log deploy.',
+                'Codex': 'Tóm tắt quy trình dùng Codex/Codex Cloud an toàn: AGENTS.md, sandbox, MCP, skills, subagents, PR review và workflow GitHub.',
+                'Đăng nhập': workflowCommands[0].prompt,
+                'Quét mô mạch': 'Review nhanh kiến trúc web app RKIX3 hiện tại, liệt kê điểm yếu UI/API/security/performance và đề xuất bản nâng cấp.'
+            };
+            promptInput.value = menuPrompts[action] || `Đang chạy lệnh hành động: ${action}`;
+            promptInput.dispatchEvent(new Event('input'));
+            promptInput.focus();
+            setMobileSidebar(false);
+            triggerToast(`Đã nạp lệnh: ${action}`);
+        }
+
+        async function handleFileAttach(event) {
+            const file = event.target.files?.[0];
+            if (!file) return;
+            if (file.size > 512 * 1024) {
+                triggerToast('Tệp quá lớn. Hãy dùng file dưới 512KB cho bản web tĩnh.', 'warning');
+                return;
+            }
+            const text = await file.text();
+            attachedContext = `\n\n--- FILE ĐÍNH KÈM: ${file.name} ---\n${text.slice(0, 12000)}`;
+            const badge = document.getElementById('attachedFileBadge');
+            badge.textContent = `Đã gắn context: ${file.name} (${Math.ceil(file.size / 1024)}KB)`;
+            badge.classList.remove('hidden');
+            triggerToast('Đã đính kèm file context.');
+        }
+
+        function buildSystemPrompt() {
+            const mode = document.getElementById('taskMode').value;
+            return `Bạn là RKIX3 Core Engine, trợ lý AI chuyên lập trình, build web app, tạo CLI mobile-first, tự động hóa DevOps và bảo mật API.
+Ngôn ngữ trả lời: tiếng Việt rõ ràng, thực dụng.
+Chế độ tác vụ: ${mode}.
+Ưu tiên: mã chạy được, kiến trúc an toàn, không lộ API key client-side, dùng backend proxy khi production, UI phẳng vuông góc cạnh tuyệt đối nếu tạo giao diện.
+Khi viết code: chia file, giải thích cách chạy test, nêu biến môi trường cần có.
+Nếu tạo HTML preview, trả về một khối HTML hoàn chỉnh.`;
+        }
+
+        function setLoadingState(isLoading, message = 'RKIX3 đang lập trình cấu trúc...') {
+            loader.classList.toggle('hidden', !isLoading);
+            outputCode.classList.toggle('hidden', isLoading);
+            loaderText.textContent = message;
+            progressBar.style.width = isLoading ? '35%' : '100%';
+            if (isLoading) {
+                setTimeout(() => { progressBar.style.width = '68%'; }, 450);
+                setTimeout(() => { progressBar.style.width = '88%'; }, 1200);
+            }
+        }
+
+        async function submitPromptToAI() {
             const val = promptInput.value.trim();
             if (!val) return;
 
-            // Thu nhỏ logo chính giữa màn hình để hiển thị không gian phát triển code
             brandCentral.classList.add('scale-75', 'opacity-50', 'transition-all', 'duration-500');
             workspace.classList.remove('hidden');
-            loader.classList.remove('hidden');
-            outputCode.classList.add('hidden');
             previewFrame.classList.add('hidden');
             livePlayBtn.classList.add('hidden');
-
+            resultMeta.classList.add('hidden');
+            setLoadingState(true, `${aiSettings.provider.toUpperCase()} đang xử lý tác vụ RKIX3...`);
             workspace.scrollIntoView({ behavior: 'smooth' });
 
-            let attempts = 0;
-            const maxAttempts = 5;
-            let resultText = "";
+            const prompt = `${val}${attachedContext}`;
+            let resultText = '';
+            let usedProvider = aiSettings.provider;
+            const startedAt = performance.now();
 
-            const callGemini = async () => {
-                const targetKey = customApiKey || ""; // Sẽ tự động dùng API Key tại runtime nếu rỗng
-                const url = `https://generativelanguage.googleapis.com/v1beta/models/${fallbackModel}:generateContent?key=${targetKey}`;
-                
-                const systemPrompt = `Bạn là trợ lý AI chuyên biệt của dự án RKIX3. 
-                Nhiệm vụ: Phản hồi hoặc lập trình cấu trúc HTML/CSS/JS phục vụ mảng Lập trình, Build, Tự động hóa.
-                Hãy chú thích từng dòng code bằng tiếng Việt để lập trình viên hiểu rõ. 
-                Đặc biệt: Giao diện trang web hãy xây dựng theo dạng phẳng lỳ và vuông góc cạnh tuyệt đối (không bo góc).`;
-
-                const payload = {
-                    contents: [{ parts: [{ text: val }] }],
-                    systemInstruction: { parts: [{ text: systemPrompt }] }
-                };
-
-                const response = await fetch(url, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(payload)
-                });
-
-                if (!response.ok) {
-                    throw new Error(`HTTP Error Status: ${response.status}`);
+            try {
+                if (aiSettings.provider === 'openai' && aiSettings.apiKey) {
+                    resultText = await callOpenAI(prompt);
+                } else if (aiSettings.provider === 'gemini' && aiSettings.apiKey) {
+                    resultText = await callGemini(prompt);
+                } else {
+                    usedProvider = 'demo';
+                    resultText = await generateDemoResponse(prompt);
                 }
-
-                const data = await response.json();
-                return data.candidates?.[0]?.content?.parts?.[0]?.text;
-            };
-
-            // Cơ chế thử lại Exponential Backoff tự động khi gặp sự cố mạng
-            while (attempts < maxAttempts) {
-                try {
-                    resultText = await callGemini();
-                    break;
-                } catch (err) {
-                    attempts++;
-                    if (attempts >= maxAttempts) {
-                        loader.classList.add('hidden');
-                        outputCode.classList.remove('hidden');
-                        outputCode.innerHTML = `<span class="text-rose-500">Lỗi: Gặp sự cố kết nối API sau 5 lần thử lại. Chi tiết: ${err.message}. Hãy bổ sung API Key cá nhân trong cài đặt Mã API.</span>`;
-                        triggerToast("Xử lý tác vụ thất bại!", "error");
-                        return;
-                    }
-                    const sleepDuration = Math.pow(2, attempts - 1) * 1000;
-                    await new Promise(res => setTimeout(res, sleepDuration));
-                }
+            } catch (err) {
+                usedProvider = 'demo-fallback';
+                resultText = `${await generateDemoResponse(prompt)}\n\n---\n⚠️ API online lỗi: ${err.message}\nRKIX3 đã tự chuyển sang Demo Fallback để bạn vẫn có blueprint/code mẫu.`;
+                triggerToast('API lỗi, đã chuyển Demo Fallback.', 'warning');
             }
 
-            loader.classList.add('hidden');
-            outputCode.classList.remove('hidden');
-            outputCode.textContent = resultText;
-
-            // Nếu phản hồi có cấu trúc HTML thô, hiển thị nút Play để xem trực quan
-            if (resultText.includes('<!DOCTYPE html>') || resultText.includes('<html>') || resultText.includes('<body>')) {
-                livePlayBtn.classList.remove('hidden');
-            }
-
-            triggerToast("Đã xử lý tác vụ hoàn tất!");
+            const latency = Math.max(1, Math.round(performance.now() - startedAt));
+            setLoadingState(false);
+            outputCode.textContent = resultText || 'Không có nội dung trả về.';
+            renderResultMeta(usedProvider, latency, resultText.length);
+            if (looksLikeHtml(resultText)) livePlayBtn.classList.remove('hidden');
+            triggerToast('Đã xử lý tác vụ hoàn tất!');
         }
 
-        // Chạy xem trước trực tiếp HTML sinh ra
+        async function callOpenAI(prompt) {
+            const baseUrl = aiSettings.baseUrl || 'https://api.openai.com/v1';
+            const response = await fetch(`${baseUrl.replace(/\/$/, '')}/responses`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${aiSettings.apiKey}`
+                },
+                body: JSON.stringify({
+                    model: aiSettings.model || MODEL_DEFAULTS.openai,
+                    input: [
+                        { role: 'system', content: buildSystemPrompt() },
+                        { role: 'user', content: prompt }
+                    ],
+                    reasoning: { effort: 'medium' },
+                    max_output_tokens: 4096
+                })
+            });
+            if (!response.ok) throw new Error(`OpenAI HTTP ${response.status}`);
+            const data = await response.json();
+            return data.output_text || data.output?.flatMap(item => item.content || []).map(part => part.text || '').join('\n') || '';
+        }
+
+        async function callGemini(prompt) {
+            const baseUrl = aiSettings.baseUrl || 'https://generativelanguage.googleapis.com/v1beta';
+            const model = aiSettings.model || MODEL_DEFAULTS.gemini;
+            const response = await fetch(`${baseUrl.replace(/\/$/, '')}/models/${model}:generateContent?key=${aiSettings.apiKey}`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    contents: [{ parts: [{ text: prompt }] }],
+                    systemInstruction: { parts: [{ text: buildSystemPrompt() }] },
+                    generationConfig: { temperature: 0.4, maxOutputTokens: 4096 }
+                })
+            });
+            if (!response.ok) throw new Error(`Gemini HTTP ${response.status}`);
+            const data = await response.json();
+            return data.candidates?.[0]?.content?.parts?.map(part => part.text || '').join('\n') || '';
+        }
+
+        async function generateDemoResponse(prompt) {
+            await new Promise(resolve => setTimeout(resolve, 650));
+            const selected = workflowCommands.find(command => prompt.toLowerCase().includes(command.key)) || workflowCommands[5];
+            const promptPreview = `${prompt.slice(0, 1200)}${prompt.length > 1200 ? '...' : ''}`;
+            return [
+                `# RKIX3 Blueprint: ${selected.title}`,
+                '',
+                '## Mục tiêu',
+                '- Biến RKIX3 thành studio web app/CLI mobile-first cho lập trình, build, automation, database và deploy.',
+                '- Luôn giữ API key ở server/proxy; browser chỉ dùng key tạm khi thử nghiệm cá nhân.',
+                '- Thiết kế phẳng, vuông góc, tương thích Termux Android và desktop.',
+                '',
+                '## Kiến trúc đề xuất',
+                '```txt',
+                'rkix3/',
+                '├─ apps/web/                 # UI RKIX3 Studio',
+                '├─ packages/cli/             # mycli auth/init/ai/db/deploy',
+                '├─ server/api/ai-proxy.ts    # Proxy OpenAI/Gemini, rate limit, audit log',
+                '├─ server/api/oauth.ts       # Local loopback + PKCE callback',
+                '├─ db/migrations/            # Supabase/Neon schema',
+                '└─ .github/workflows/ci.yml  # test, build, deploy preview',
+                '```',
+                '',
+                '## 5 lệnh cốt lõi',
+                '1. `mycli auth <service>`: mở trình duyệt bằng `termux-open-url`, chạy `localhost:8787/callback`, lưu token vào vault/.env.',
+                '2. `mycli init <repo>`: clone repo, phát hiện npm/pnpm/yarn, tạo .env mẫu, chạy install.',
+                '3. `mycli ai <file> "task"`: đọc context, gọi AI, hiển thị diff, xác nhận rồi commit/push.',
+                '4. `mycli db setup`: tạo database, ghi `DATABASE_URL`, sinh migration và smoke test.',
+                '5. `mycli deploy`: chạy test, push GitHub, gọi Vercel/Netlify API, mở link live.',
+                '',
+                '## Mẫu CLI OAuth loopback',
+                '```js',
+                "import http from 'node:http';",
+                "import { randomUUID } from 'node:crypto';",
+                "import { execFile } from 'node:child_process';",
+                '',
+                'const port = 8787;',
+                'const state = randomUUID();',
+                "const callbackUrl = 'http://127.0.0.1:' + port + '/callback';",
+                "const authUrl = 'https://example.com/oauth/authorize?response_type=code&client_id=CLIENT_ID&redirect_uri=' + encodeURIComponent(callbackUrl) + '&state=' + state;",
+                '',
+                'const server = http.createServer(async (req, res) => {',
+                '  const url = new URL(req.url, callbackUrl);',
+                "  if (url.pathname !== '/callback' || url.searchParams.get('state') !== state) {",
+                "    res.writeHead(400).end('Invalid callback');",
+                '    return;',
+                '  }',
+                "  const code = url.searchParams.get('code');",
+                "  res.end('RKIX3 đã nhận mã đăng nhập. Có thể đóng tab này.');",
+                '  server.close();',
+                "  console.log('OAuth code:', code);",
+                '});',
+                '',
+                "server.listen(port, '127.0.0.1', () => {",
+                "  execFile('termux-open-url', [authUrl], (error) => {",
+                "    if (error) console.log('Mở URL thủ công:', authUrl);",
+                '  });',
+                '});',
+                '```',
+                '',
+                '## Checklist triển khai mạnh',
+                '- [ ] API proxy có rate limit, request id, log lỗi không chứa secret.',
+                '- [ ] LocalStorage chỉ lưu provider/model/base URL, không lưu API key dài hạn.',
+                '- [ ] CI chạy lint/test/build trước deploy.',
+                '- [ ] Preview HTML sandbox bằng iframe có `sandbox`.',
+                '- [ ] Database migration có rollback và seed dữ liệu mẫu.',
+                '',
+                '## Prompt người dùng đã gửi',
+                promptPreview
+            ].join('\n');
+        }
+
+        function renderResultMeta(provider, latency, length) {
+            const chips = [
+                ['Provider', provider],
+                ['Model', aiSettings.model],
+                ['Latency', `${latency}ms`],
+                ['Chars', String(length)]
+            ];
+            resultMeta.innerHTML = chips.map(([label, value]) => `<div class="border border-zinc-900 bg-black/20 px-3 py-2 square-flat"><p class="text-zinc-600 uppercase">${label}</p><p class="text-zinc-200 font-bold truncate">${value}</p></div>`).join('');
+            resultMeta.classList.remove('hidden');
+        }
+
+        function looksLikeHtml(text) {
+            return /<!doctype html|<html|<body|<main|<section/i.test(text);
+        }
+
+        function extractPreviewHtml(raw) {
+            if (raw.includes('```html')) return raw.split('```html')[1].split('```')[0].trim();
+            const genericFence = raw.match(/```[\s\S]*?```/);
+            if (genericFence && looksLikeHtml(genericFence[0])) return genericFence[0].replace(/```[a-z]*/i, '').replace(/```$/, '').trim();
+            return raw;
+        }
+
         function toggleOutputPreview() {
-            let htmlStr = outputCode.textContent;
+            const htmlStr = extractPreviewHtml(outputCode.textContent);
             if (!htmlStr) return;
-
-            // Lọc bỏ định dạng rào chắn markdown của AI nếu có
-            if (htmlStr.includes('```html')) {
-                htmlStr = htmlStr.split('```html')[1].split('```')[0].trim();
-            } else if (htmlStr.includes('```')) {
-                htmlStr = htmlStr.split('```')[1].split('```')[0].trim();
-            }
-
             if (previewFrame.classList.contains('hidden')) {
                 previewFrame.srcdoc = htmlStr;
                 previewFrame.classList.remove('hidden');
-                triggerToast("Đã mở chế độ xem trước trực tiếp!");
+                triggerToast('Đã mở chế độ xem trước trực tiếp!');
             } else {
                 previewFrame.classList.add('hidden');
             }
         }
 
-        // Sao chép code cực nhanh vào clipboard
-        function copySourceCode() {
+        async function copySourceCode() {
             const rawContent = outputCode.textContent;
             if (!rawContent) return;
-
+            if (navigator.clipboard?.writeText) {
+                await navigator.clipboard.writeText(rawContent);
+                triggerToast('Đã sao chép mã nguồn vào clipboard!');
+                return;
+            }
             const tempTextArea = document.createElement('textarea');
             tempTextArea.value = rawContent;
             tempTextArea.style.position = 'fixed';
             document.body.appendChild(tempTextArea);
             tempTextArea.select();
-            try {
-                document.execCommand('copy');
-                triggerToast("Đã sao chép mã nguồn vào clipboard!");
-            } catch (err) {
-                triggerToast("Lỗi sao chép không thành công!", "error");
-            }
+            document.execCommand('copy');
             document.body.removeChild(tempTextArea);
+            triggerToast('Đã sao chép mã nguồn vào clipboard!');
         }
 
-        // Ghi âm giả lập
+        function downloadOutput() {
+            const rawContent = outputCode.textContent;
+            if (!rawContent) return;
+            const blob = new Blob([rawContent], { type: 'text/plain;charset=utf-8' });
+            const url = URL.createObjectURL(blob);
+            const anchor = document.createElement('a');
+            anchor.href = url;
+            anchor.download = `rkix3-output-${Date.now()}.md`;
+            anchor.click();
+            URL.revokeObjectURL(url);
+            triggerToast('Đã tạo file tải xuống.');
+        }
+
         function toggleVoiceRecording() {
+            const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
             const micBtn = document.getElementById('micBtn');
+            if (!SpeechRecognition) {
+                promptInput.value = 'Hãy viết một kịch bản tự động hoá kiểm thử mảng cho dự án RKIX3 bằng JavaScript...';
+                promptInput.dispatchEvent(new Event('input'));
+                triggerToast('Trình duyệt không hỗ trợ Speech API, đã nạp prompt mẫu.', 'warning');
+                return;
+            }
             if (!isRecording) {
+                recognitionInstance = new SpeechRecognition();
+                recognitionInstance.lang = 'vi-VN';
+                recognitionInstance.continuous = false;
+                recognitionInstance.interimResults = false;
+                recognitionInstance.onresult = (event) => {
+                    promptInput.value = event.results[0][0].transcript;
+                    promptInput.dispatchEvent(new Event('input'));
+                    triggerToast('Đã dịch giọng nói thành văn bản!');
+                };
+                recognitionInstance.onend = () => {
+                    isRecording = false;
+                    micBtn.innerHTML = '<i data-lucide="mic" class="w-4 h-4"></i>';
+                    lucide.createIcons();
+                };
                 isRecording = true;
                 micBtn.innerHTML = '<i data-lucide="square" class="w-4 h-4 text-rose-500 animate-pulse"></i>';
-                triggerToast("Đang ghi âm giọng nói...");
+                recognitionInstance.start();
+                triggerToast('Đang ghi âm giọng nói...');
             } else {
-                isRecording = false;
-                micBtn.innerHTML = '<i data-lucide="mic" class="w-4 h-4"></i>';
-                promptInput.value = "Hãy viết một kịch bản tự động hoá kiểm thử mảng cho dự án RKIX3 bằng JavaScript...";
-                promptInput.dispatchEvent(new Event('input'));
-                triggerToast("Đã dịch giọng nói thành văn bản!");
+                recognitionInstance?.stop();
             }
             lucide.createIcons();
         }
 
-        // Khởi động phiên làm việc mới
         function startFreshChat() {
+            attachedContext = '';
+            document.getElementById('attachedFileBadge').classList.add('hidden');
             goHome();
-            triggerToast("Đã mở phiên chat mới.");
+            triggerToast('Đã mở phiên chat mới.');
         }
 
-        // Chạy lệnh hành động mờ
-        function menuCommand(action) {
-            triggerToast(`Đang chạy lệnh hành động: ${action}`);
+        function runDemoBlueprint() {
+            promptInput.value = workflowCommands[5].prompt;
+            promptInput.dispatchEvent(new Event('input'));
+            aiSettings.provider = 'demo';
+            aiSettings.model = MODEL_DEFAULTS.demo;
+            updateModeLabel();
+            submitPromptToAI();
         }
 
-        // CHỨC NĂNG CHUYỂN VIEW GIẢ LẬP (PC / MOBILE) DÀNH CHO PC
         function switchViewMode(mode) {
             const appShell = document.getElementById('appShell');
             const sidebar = document.getElementById('sidebar');
             const mobileBottomBar = document.getElementById('mobileBottomBar');
             const pcBtn = document.getElementById('pcViewBtn');
             const moBtn = document.getElementById('moViewBtn');
-
+            const cardsGrid = document.getElementById('cardsGrid');
             if (mode === 'mobile') {
-                // Thu gọn khung trang về tỷ lệ màn hình điện thoại iPhone
                 appShell.style.maxWidth = '420px';
                 appShell.style.margin = '0 auto';
                 appShell.style.boxShadow = '0 0 60px rgba(0,0,0,0.95)';
                 appShell.style.borderLeft = '1px solid #102142';
                 appShell.style.borderRight = '1px solid #102142';
-
                 sidebar.classList.add('-translate-x-full');
                 sidebar.classList.remove('md:translate-x-0');
                 document.querySelector('main').classList.remove('md:pl-[270px]');
                 mobileBottomBar.classList.remove('md:hidden');
-
-                // Ép các Card tác vụ hiển thị dạng lưới dọc 2 cột trên di động
-                document.getElementById('cardsGrid').classList.remove('md:grid-cols-4');
-                document.getElementById('cardsGrid').classList.add('grid-cols-2');
-
-                pcBtn.className = "px-3 py-1 text-[9px] font-bold uppercase square-flat text-zinc-400 hover:text-white transition-all";
-                moBtn.className = "px-3 py-1 text-[9px] font-bold uppercase square-flat bg-blue-600 text-white transition-all";
+                cardsGrid.className = 'grid grid-cols-2 gap-4 w-full max-w-6xl mx-auto';
+                pcBtn.className = 'px-3 py-1 text-[9px] font-bold uppercase square-flat text-zinc-400 hover:text-white transition-all';
+                moBtn.className = 'px-3 py-1 text-[9px] font-bold uppercase square-flat bg-blue-600 text-white transition-all';
             } else {
-                // Trả lại tỷ lệ rộng rãi mặc định của màn hình PC
                 appShell.style.maxWidth = '100%';
                 appShell.style.margin = '0';
                 appShell.style.boxShadow = 'none';
                 appShell.style.border = 'none';
-
                 sidebar.classList.add('md:translate-x-0');
                 document.querySelector('main').classList.add('md:pl-[270px]');
                 mobileBottomBar.classList.add('md:hidden');
-
-                document.getElementById('cardsGrid').classList.add('md:grid-cols-4');
-                document.getElementById('cardsGrid').classList.remove('grid-cols-2');
-
-                moBtn.className = "px-3 py-1 text-[9px] font-bold uppercase square-flat text-zinc-400 hover:text-white transition-all";
-                pcBtn.className = "px-3 py-1 text-[9px] font-bold uppercase square-flat bg-blue-600 text-white transition-all";
+                cardsGrid.className = 'grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-4 w-full max-w-6xl mx-auto';
+                moBtn.className = 'px-3 py-1 text-[9px] font-bold uppercase square-flat text-zinc-400 hover:text-white transition-all';
+                pcBtn.className = 'px-3 py-1 text-[9px] font-bold uppercase square-flat bg-blue-600 text-white transition-all';
             }
             lucide.createIcons();
         }
+
+        initialize();
     </script>
 </body>
 </html>
-
