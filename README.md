@@ -42,12 +42,13 @@
 | Mảng | Giá trị |
 | --- | --- |
 | 🤖 AI Studio | Chọn OpenAI Responses, Gemini hoặc Demo Offline để tạo blueprint/code mẫu. |
-| 🧩 Command Center | Bộ lệnh gợi ý `auth`, `init`, `ai`, `db`, `deploy`, `rkix3` cho quy trình mobile-first. |
+| 🧩 Command Center | Bộ lệnh gợi ý `auth`, `init`, `ai`, `db`, `deploy`, `rkix3`, `androidx` cho quy trình mobile-first. |
 | 📎 Context file | Đính kèm file nhỏ để RKIX3 hiểu thêm ngữ cảnh trước khi sinh kết quả. |
 | 🎙️ Voice input | Nhập prompt bằng giọng nói trên trình duyệt hỗ trợ Web Speech API. |
 | 🖼️ HTML Preview | Xem trước HTML sinh ra trong iframe sandbox an toàn hơn. |
 | 📱 Mobile ready | UI tối ưu cho điện thoại, Termux workflow và thao tác nhanh. |
 | 🚀 GitHub Pages | Workflow deploy static content qua artifact `_site` và GitHub Pages Actions. |
+| 🤖 AndroidX Lab | Prompt/checklist setup AndroidX main: repo partial clone, Gradle, Android Studio MAIN và Gerrit upload. |
 
 
 ## 🎨 UI vNext cockpit
@@ -56,7 +57,7 @@ Bản giao diện mới tập trung vào cảm giác **AI Command OS** chuyên n
 
 - Hero cockpit hai cột với logo RKIX3, CTA nhanh, pipeline Prompt → Context → AI → Preview → Deploy.
 - Nền aurora/grid, scanline, ticker công nghệ và hiệu ứng hover-lift có hỗ trợ `prefers-reduced-motion`.
-- Quick Launch gom các tác vụ quan trọng: code API, OAuth CLI, database, deploy và review hệ thống.
+- Quick Launch gom các tác vụ quan trọng: code API, OAuth CLI, database, deploy, AndroidX Lab và review hệ thống.
 - Live UTC status để tạo cảm giác dashboard vận hành thực tế trên GitHub Pages.
 - Khối **Creator Honor** giữ tinh thần tôn vinh người tạo ra RKIX3 ngay trong web app.
 
@@ -76,6 +77,25 @@ RKIX3/
 python3 -m http.server 4173
 # mở http://127.0.0.1:4173
 ```
+
+
+## 🤖 AndroidX Lab workflow
+
+RKIX3 giờ có thêm quick action **AndroidX Lab** để biến bộ ghi chú setup AndroidX thành prompt/checklist chạy được trong Command Center:
+
+```bash
+git config --global user.name "Your Name"
+git config --global user.email "you@example.com"
+mkdir -p androidx-main && cd androidx-main
+repo init -u https://android.googlesource.com/platform/manifest -b androidx-main --partial-clone --clone-filter=blob:limit=10M
+repo sync -j8 -c
+cd frameworks/support
+ANDROIDX_PROJECTS=MAIN ./gradlew studio
+./gradlew createArchive
+# repo start my_branch_name . && git commit -a && repo upload --current-branch .
+```
+
+> Ghi chú: RKIX3 chỉ đưa quy trình này thành prompt/checklist hỗ trợ; việc clone AndroidX thật có dung lượng lớn và cần môi trường `repo`, Git/Gerrit, Android Studio/Gradle phù hợp.
 
 ## 🚀 Deploy GitHub Pages
 
@@ -140,6 +160,7 @@ Workflow `.github/workflows/static.yml` sẽ:
 
 - [x] Giao diện RKIX3 Studio single-file.
 - [x] UI vNext cockpit với hero, ticker, quick launch và live status.
+- [x] AndroidX Lab prompt/checklist cho repo partial clone, Gradle, Studio và Gerrit flow.
 - [x] Command Center cho CLI/mobile workflow.
 - [x] Demo Offline để sinh blueprint khi chưa có API key.
 - [x] GitHub Pages static deploy workflow.
