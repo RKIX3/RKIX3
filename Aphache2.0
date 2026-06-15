@@ -1,0 +1,93 @@
+Giấy phép Apache 2.0 | Trao đổi dữ liệu gói phần mềm (SPDX)
+Họ và tên đầy đủ
+Apache License 2.0
+
+Mã định danh ngắn
+Apache-2.0
+
+Các trang web khác liên quan đến giấy phép này
+https://www.apache.org/licenses/LICENSE-2.0
+https://opensource.org/licenses/Apache-2.0
+https://opensource.org/license/apache-2-0
+Ghi chú
+Giấy phép này được cấp vào tháng 1 năm 2004.
+
+Chữ
+Văn bản in nghiêng màu xanh lam có thể bỏ qua (xem Hướng dẫn khớp B.3.5 ). Văn bản giấy phép hoặc ngoại lệ sẽ khớp với văn bản cho mã định danh được chỉ định nếu nó bao gồm hoặc loại trừ văn bản có thể bỏ qua này.
+
+Văn bản màu đỏ có thể thay thế (xem Hướng dẫn khớp B.3.4 ). Văn bản giấy phép hoặc ngoại lệ sẽ khớp với văn bản cho mã định danh được chỉ định nếu nó bao gồm một biến thể được cho phép của văn bản có thể thay thế này. Các biến thể được cho phép có thể được tìm thấy trong biểu thức chính quy tương ứng như được hiển thị trong văn bản tiêu đề khi di chuột qua văn bản màu đỏ.
+
+Giấy phép Apache
+phiên bản 2.0, tháng 1 năm 2004
+http://www.apache.org/licenses/
+
+ĐIỀU KHOẢN VÀ ĐIỀU KIỆN SỬ DỤNG, SAO CHÉP VÀ PHÂN PHỐI
+
+1. Định nghĩa.
+"Giấy phép" có nghĩa là các điều khoản và điều kiện sử dụng, sao chép và phân phối được định nghĩa trong các Mục 1 đến 9 của tài liệu này.
+
+"Bên cấp phép" có nghĩa là chủ sở hữu bản quyền hoặc tổ chức được chủ sở hữu bản quyền ủy quyền cấp phép.
+
+"Thực thể pháp lý" có nghĩa là sự kết hợp giữa thực thể đang hoạt động và tất cả các thực thể khác kiểm soát, bị kiểm soát bởi, hoặc thuộc quyền kiểm soát chung với thực thể đó. Đối với mục đích của định nghĩa này, "kiểm soát" có nghĩa là (i) quyền lực, trực tiếp hoặc gián tiếp, để chi phối hướng đi hoặc quản lý của thực thể đó, dù bằng hợp đồng hay bằng cách khác, hoặc (ii) sở hữu năm mươi phần trăm (50%) hoặc hơn số cổ phần đang lưu hành, hoặc (iii) quyền sở hữu thực tế đối với thực thể đó.
+
+"Bạn" (hoặc "Của bạn") có nghĩa là cá nhân hoặc pháp nhân thực hiện các quyền được cấp theo Giấy phép này.
+
+"Dạng nguồn" có nghĩa là dạng được ưu tiên để thực hiện các chỉnh sửa, bao gồm nhưng không giới hạn ở mã nguồn phần mềm, nguồn tài liệu và các tệp cấu hình.
+
+"Dạng đối tượng" có nghĩa là bất kỳ dạng nào phát sinh từ quá trình biến đổi hoặc dịch thuật cơ học của dạng nguồn, bao gồm nhưng không giới hạn ở mã đối tượng đã biên dịch, tài liệu được tạo ra và chuyển đổi sang các loại phương tiện khác.
+
+"Tác phẩm" có nghĩa là tác phẩm sáng tạo, dù ở dạng mã nguồn hay mã đối tượng, được cung cấp theo Giấy phép, như được chỉ ra bởi thông báo bản quyền được bao gồm trong hoặc đính kèm với tác phẩm (một ví dụ được cung cấp trong Phụ lục bên dưới).
+
+"Tác phẩm phái sinh" có nghĩa là bất kỳ tác phẩm nào, dù ở dạng mã nguồn hay mã đối tượng, được dựa trên (hoặc phái sinh từ) Tác phẩm gốc và các chỉnh sửa biên tập, chú thích, diễn giải hoặc các sửa đổi khác, xét về tổng thể, tạo thành một tác phẩm gốc. Đối với mục đích của Giấy phép này, Tác phẩm phái sinh không bao gồm các tác phẩm vẫn có thể tách rời khỏi, hoặc chỉ liên kết (hoặc ràng buộc bằng tên) với giao diện của Tác phẩm gốc và các Tác phẩm phái sinh của nó.
+
+"Đóng góp" có nghĩa là bất kỳ tác phẩm nào, bao gồm phiên bản gốc của Tác phẩm và bất kỳ sửa đổi hoặc bổ sung nào cho Tác phẩm đó hoặc các Tác phẩm phái sinh của nó, được chủ sở hữu bản quyền hoặc cá nhân hoặc pháp nhân được ủy quyền thay mặt chủ sở hữu bản quyền cố ý gửi cho Bên cấp phép để đưa vào Tác phẩm. Đối với mục đích của định nghĩa này, "đã gửi" có nghĩa là bất kỳ hình thức liên lạc điện tử, bằng lời nói hoặc bằng văn bản nào được gửi đến Bên cấp phép hoặc đại diện của Bên cấp phép, bao gồm nhưng không giới hạn ở các liên lạc trên danh sách gửi thư điện tử, hệ thống kiểm soát mã nguồn và hệ thống theo dõi sự cố do Bên cấp phép quản lý hoặc thay mặt Bên cấp phép quản lý nhằm mục đích thảo luận và cải thiện Tác phẩm, nhưng không bao gồm các liên lạc được chủ sở hữu bản quyền đánh dấu rõ ràng hoặc chỉ định bằng văn bản là "Không phải là Đóng góp".
+
+"Người đóng góp" có nghĩa là Bên cấp phép và bất kỳ cá nhân hoặc pháp nhân nào mà Bên cấp phép đã nhận được Đóng góp thay mặt cho họ và sau đó đưa Đóng góp đó vào Tác phẩm.
+
+2. Cấp Giấy Phép Bản Quyền. Theo các điều khoản và điều kiện của Giấy phép này, mỗi Người đóng góp theo đây cấp cho Bạn một giấy phép bản quyền vĩnh viễn, toàn cầu, không độc quyền, miễn phí, không bản quyền, không thể thu hồi để sao chép, tạo ra các Tác phẩm phái sinh, trưng bày công khai, trình diễn công khai, cấp phép lại và phân phối Tác phẩm và các Tác phẩm phái sinh đó dưới dạng Mã nguồn hoặc Mã đối tượng.
+3. Cấp Giấy Phép Sáng Chế. Theo các điều khoản và điều kiện của Giấy phép này, mỗi Người đóng góp theo đây cấp cho Bạn giấy phép sáng chế vĩnh viễn, toàn cầu, không độc quyền, miễn phí, không bản quyền, không thể hủy bỏ (trừ trường hợp được nêu trong phần này) để sản xuất, cho sản xuất, sử dụng, chào bán, bán, nhập khẩu và chuyển giao Tác phẩm theo bất kỳ cách nào khác, trong đó giấy phép này chỉ áp dụng cho các yêu cầu sáng chế mà Người đóng góp đó có thể cấp phép và bị vi phạm một cách tất yếu bởi Đóng góp của họ một mình hoặc bởi sự kết hợp của Đóng góp của họ với Tác phẩm mà Đóng góp đó được gửi kèm. Nếu Bạn khởi kiện tranh chấp sáng chế chống lại bất kỳ thực thể nào (bao gồm cả yêu cầu bồi thường hoặc phản tố trong một vụ kiện) cáo buộc rằng Tác phẩm hoặc Đóng góp được kết hợp trong Tác phẩm cấu thành hành vi vi phạm sáng chế trực tiếp hoặc gián tiếp, thì bất kỳ giấy phép sáng chế nào được cấp cho Bạn theo Giấy phép này đối với Tác phẩm đó sẽ chấm dứt kể từ ngày vụ kiện được đệ trình.
+4. Phân phối lại. Bạn có thể sao chép và phân phối các bản sao của Tác phẩm hoặc các Tác phẩm phái sinh của Tác phẩm đó trên bất kỳ phương tiện nào, có hoặc không có sửa đổi, và ở dạng Mã nguồn hoặc Mã đối tượng, với điều kiện bạn đáp ứng các điều kiện sau:
+(a) Bạn phải cung cấp cho bất kỳ người nhận nào khác của Tác phẩm hoặc Tác phẩm phái sinh một bản sao của Giấy phép này; và
+(b) Bạn phải đảm bảo rằng bất kỳ tập tin nào đã được sửa đổi đều có thông báo rõ ràng cho biết bạn đã thay đổi các tập tin đó; và
+(c) Bạn phải giữ lại, trong bản gốc của bất kỳ Tác phẩm phái sinh nào mà bạn phân phối, tất cả các thông báo về bản quyền, bằng sáng chế, nhãn hiệu và ghi nhận tác giả từ bản gốc của Tác phẩm, trừ những thông báo không liên quan đến bất kỳ phần nào của Tác phẩm phái sinh; và
+(d) Nếu Tác phẩm bao gồm một tệp văn bản "THÔNG BÁO" như một phần của bản phân phối, thì bất kỳ Tác phẩm phái sinh nào mà Bạn phân phối phải bao gồm một bản sao dễ đọc của các thông báo ghi công có trong tệp THÔNG BÁO đó, ngoại trừ những thông báo không liên quan đến bất kỳ phần nào của Tác phẩm phái sinh, ở ít nhất một trong những vị trí sau: trong tệp văn bản THÔNG BÁO được phân phối như một phần của Tác phẩm phái sinh; trong biểu mẫu Nguồn hoặc tài liệu, nếu được cung cấp cùng với Tác phẩm phái sinh; hoặc, trong màn hình hiển thị được tạo ra bởi Tác phẩm phái sinh, nếu và ở bất cứ nơi nào các thông báo của bên thứ ba đó thường xuất hiện. Nội dung của tệp THÔNG BÁO chỉ nhằm mục đích thông tin và không sửa đổi Giấy phép. Bạn có thể thêm các thông báo ghi công của riêng mình trong Tác phẩm phái sinh mà Bạn phân phối, cùng với hoặc như một phần bổ sung cho văn bản THÔNG BÁO từ Tác phẩm, với điều kiện là các thông báo ghi công bổ sung đó không thể được hiểu là sửa đổi Giấy phép.
+Bạn có thể thêm tuyên bố bản quyền của riêng mình vào các bản sửa đổi và có thể cung cấp các điều khoản và điều kiện cấp phép bổ sung hoặc khác nhau cho việc sử dụng, sao chép hoặc phân phối các bản sửa đổi của bạn, hoặc cho bất kỳ Tác phẩm phái sinh nào như vậy nói chung, miễn là việc sử dụng, sao chép và phân phối Tác phẩm của bạn tuân thủ các điều kiện được nêu trong Giấy phép này.
+
+5. Việc gửi Đóng góp. Trừ khi Bạn nêu rõ ràng khác, bất kỳ Đóng góp nào Bạn cố ý gửi cho Bên cấp phép để đưa vào Tác phẩm sẽ tuân theo các điều khoản và điều kiện của Giấy phép này, không kèm theo bất kỳ điều khoản hoặc điều kiện bổ sung nào. Mặc dù vậy, không có điều khoản nào trong đây sẽ thay thế hoặc sửa đổi các điều khoản của bất kỳ thỏa thuận cấp phép riêng nào mà Bạn có thể đã ký kết với Bên cấp phép liên quan đến các Đóng góp đó.
+6. Nhãn hiệu thương mại. Giấy phép này không cho phép sử dụng tên thương mại, nhãn hiệu thương mại, nhãn hiệu dịch vụ hoặc tên sản phẩm của Bên cấp phép, trừ trường hợp cần thiết cho việc sử dụng hợp lý và thông thường để mô tả nguồn gốc của Tác phẩm và sao chép nội dung của tệp THÔNG BÁO.
+7. Disclaimer of Warranty. Unless required by applicable law or agreed to in writing, Licensor provides the Work (and each Contributor provides its Contributions) on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied, including, without limitation, any warranties or conditions of TITLE, NON-INFRINGEMENT, MERCHANTABILITY, or FITNESS FOR A PARTICULAR PURPOSE. You are solely responsible for determining the appropriateness of using or redistributing the Work and assume any risks associated with Your exercise of permissions under this License.
+8. Limitation of Liability. In no event and under no legal theory, whether in tort (including negligence), contract, or otherwise, unless required by applicable law (such as deliberate and grossly negligent acts) or agreed to in writing, shall any Contributor be liable to You for damages, including any direct, indirect, special, incidental, or consequential damages of any character arising as a result of this License or out of the use or inability to use the Work (including but not limited to damages for loss of goodwill, work stoppage, computer failure or malfunction, or any and all other commercial damages or losses), even if such Contributor has been advised of the possibility of such damages.
+9. Accepting Warranty or Additional Liability. While redistributing the Work or Derivative Works thereof, You may choose to offer, and charge a fee for, acceptance of support, warranty, indemnity, or other liability obligations and/or rights consistent with this License. However, in accepting such obligations, You may act only on Your own behalf and on Your sole responsibility, not on behalf of any other Contributor, and only if You agree to indemnify, defend, and hold each Contributor harmless for any liability incurred by, or claims asserted against, such Contributor by reason of your accepting any such warranty or additional liability.
+END OF TERMS AND CONDITIONS
+
+APPENDIX: How to apply the Apache License to your work.
+
+To apply the Apache License to your work, attach the following boilerplate notice, with the fields enclosed by brackets "[]" replaced with your own identifying information. (Don't include the brackets!) The text should be enclosed in the appropriate comment syntax for the file format. We also recommend that a file or class name and description of purpose be included on the same "printed page" as the copyright notice for easier identification within third-party archives.
+
+Bản quyền [yyyy] [tên chủ sở hữu bản quyền]
+
+Được cấp phép theo Giấy phép Apache, Phiên bản 2.0 ("Giấy phép");
+bạn không được sử dụng tệp này trừ khi tuân thủ Giấy phép.
+Bạn có thể lấy bản sao của Giấy phép tại [địa chỉ web].
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Trừ khi được yêu cầu bởi luật hiện hành hoặc được thỏa thuận bằng văn bản, phần mềm
+được phân phối theo Giấy phép này được phân phối trên cơ sở "NGUYÊN TRẠNG",
+KHÔNG CÓ BẢO HÀNH HOẶC ĐIỀU KIỆN NÀO, dù rõ ràng hay ngụ ý.
+Xem Giấy phép để biết ngôn ngữ cụ thể quy định quyền và
+giới hạn theo Giấy phép.
+
+Bản quyền [yyyy] [tên chủ sở hữu bản quyền]
+
+Được cấp phép theo Giấy phép Apache, Phiên bản 2.0 ("Giấy phép");
+bạn không được sử dụng tệp này trừ khi tuân thủ Giấy phép.
+Bạn có thể lấy bản sao của Giấy phép tại [địa chỉ web].
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Trừ khi được yêu cầu bởi luật hiện hành hoặc được thỏa thuận bằng văn bản, phần mềm
+được phân phối theo Giấy phép này được phân phối trên cơ sở "NGUYÊN TRẠNG",
+KHÔNG CÓ BẢO HÀNH HOẶC ĐIỀU KIỆN NÀO, dù rõ ràng hay ngụ ý.
+Xem Giấy phép để biết ngôn ngữ cụ thể quy định quyền và
+giới hạn theo Giấy phép.
