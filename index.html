@@ -199,6 +199,63 @@
                     </div>
                 </section>
 
+                <!-- Collapsed Chat Widget -->
+                <div id="collapsedChat" class="fixed bottom-6 right-6 w-96 bg-rkixSidebar border border-rkixBorder square-flat shadow-2xl animate-fade-in z-30">
+                    <div class="p-4 border-b border-zinc-900 flex items-center justify-between">
+                        <div class="flex items-center gap-2">
+                            <span class="w-2 h-2 bg-cyan-400 animate-pulse square-flat"></span>
+                            <span class="text-xs font-bold text-white">RKIX3 Trợ Lý AI</span>
+                        </div>
+                        <button onclick="minimizeChat()" class="p-1 text-zinc-400 hover:text-white transition-all"><i data-lucide="minus" class="w-4 h-4"></i></button>
+                    </div>
+                    <div class="p-4 space-y-3">
+                        <textarea id="collapsedInput" rows="2" class="w-full bg-zinc-950 border border-zinc-800 text-xs text-zinc-100 placeholder-zinc-500 p-2 square-flat focus:outline-none focus:border-blue-500 resize-none" placeholder="Hỏi RKIX3..."></textarea>
+                        <div class="flex items-center gap-2 justify-end">
+                            <button onclick="toggleChatMode()" class="h-8 px-3 bg-zinc-900 hover:bg-zinc-800 border border-zinc-800 text-[10px] font-bold text-zinc-300 hover:text-white square-flat transition-all">Bật full</button>
+                            <button id="collapsedSendBtn" onclick="openFullChat()" class="w-8 h-8 flex items-center justify-center bg-blue-600 hover:bg-blue-500 text-white square-flat transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed"><i data-lucide="arrow-up" class="w-4 h-4"></i></button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Full Screen Chat -->
+                <div id="fullscreenChat" class="fixed inset-0 bg-rkixDark/95 backdrop-blur-sm z-40 hidden flex flex-col">
+                    <!-- Header -->
+                    <header class="flex items-center justify-between px-6 py-4 border-b border-zinc-900/80 bg-rkixDark/30 backdrop-blur-md">
+                        <div class="flex items-center gap-3">
+                            <span class="w-2 h-2 bg-cyan-400 animate-pulse square-flat"></span>
+                            <h2 class="text-sm font-bold text-white">RKIX3 Trợ Lý AI</h2>
+                        </div>
+                        <button onclick="closeFullChat()" class="p-2 text-zinc-400 hover:text-white hover:bg-zinc-900 square-flat transition-all"><i data-lucide="x" class="w-5 h-5"></i></button>
+                    </header>
+
+                    <!-- Main Content -->
+                    <div class="flex-1 flex gap-4 overflow-hidden p-6">
+                        <!-- Chat Messages -->
+                        <div class="flex-1 flex flex-col overflow-hidden">
+                            <div id="chatMessages" class="flex-1 overflow-y-auto no-scrollbar space-y-4 mb-4">
+                                <!-- Messages will be injected here -->
+                            </div>
+                            <div id="chatInputArea" class="bg-rkixSidebar border border-rkixBorder p-4 square-flat">
+                                <textarea id="fullChatInput" rows="3" class="w-full bg-zinc-950 border border-zinc-800 text-sm text-zinc-100 placeholder-zinc-500 p-3 square-flat focus:outline-none focus:border-blue-500 resize-none mb-3" placeholder="Hỏi RKIX3 tiếp..."></textarea>
+                                <div class="flex items-center justify-end gap-2">
+                                    <button onclick="clearChat()" class="h-8 px-3 bg-zinc-900 hover:bg-zinc-800 border border-zinc-800 text-[10px] font-bold text-zinc-300 hover:text-white square-flat transition-all">Xóa</button>
+                                    <button id="fullChatSendBtn" onclick="sendChatMessage()" class="w-8 h-8 flex items-center justify-center bg-blue-600 hover:bg-blue-500 text-white square-flat transition-all duration-300 disabled:opacity-50"><i data-lucide="arrow-up" class="w-4 h-4"></i></button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Execution Logs -->
+                        <div class="w-80 bg-rkixSidebar border border-rkixBorder square-flat overflow-hidden flex flex-col">
+                            <div class="px-4 py-3 border-b border-zinc-900 bg-zinc-950">
+                                <p class="text-[9px] font-bold text-zinc-400 uppercase tracking-widest">Nhật Ký Thực Thi</p>
+                            </div>
+                            <div id="executionLogs" class="flex-1 overflow-y-auto no-scrollbar font-mono text-[11px] p-4 space-y-1">
+                                <div class="text-zinc-500">[hệ_thống] Khởi động RKIX3 Trợ Lý AI...</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
                 <section id="cardsGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-4 w-full max-w-6xl mx-auto">
                     <div onclick="loadPromptSample('Lập trình')" class="p-5 bg-rkixSidebar/40 hover:bg-zinc-900/30 border border-zinc-900 hover:border-blue-900/50 square-flat cursor-pointer transition-all duration-300 group"><div class="w-10 h-10 bg-blue-600/10 flex items-center justify-center text-blue-400 mb-4 square-flat"><i data-lucide="code-2" class="w-5 h-5"></i></div><h4 class="text-xs font-bold text-white mb-1">Lập trình</h4><p class="text-[10px] text-zinc-500">Viết code, debug và tối ưu hệ thống</p></div>
                     <div onclick="loadPromptSample('Build')" class="p-5 bg-rkixSidebar/40 hover:bg-zinc-900/30 border border-zinc-900 hover:border-blue-900/50 square-flat cursor-pointer transition-all duration-300 group"><div class="w-10 h-10 bg-blue-600/10 flex items-center justify-center text-blue-400 mb-4 square-flat"><i data-lucide="box" class="w-5 h-5"></i></div><h4 class="text-xs font-bold text-white mb-1">Build</h4><p class="text-[10px] text-zinc-500">Tạo UI/web app phẳng vuông góc</p></div>
@@ -800,6 +857,149 @@ Nếu tạo HTML preview, trả về một khối HTML hoàn chỉnh.`;
         }
 
         initialize();
+
+        // ========== AI Chat Functions ==========
+        let chatHistory = [];
+        let executionLogs = ['[hệ_thống] Khởi động RKIX3 Trợ Lý AI...'];
+
+        function openFullChat() {
+            const input = document.getElementById('collapsedInput').value.trim();
+            if (!input) {
+                triggerToast('Vui lòng nhập câu hỏi!', 'warning');
+                return;
+            }
+            document.getElementById('fullscreenChat').classList.remove('hidden');
+            document.getElementById('collapsedChat').classList.add('hidden');
+            addChatMessage('user', input);
+            document.getElementById('collapsedInput').value = '';
+            simulateAIExecution(input);
+            document.getElementById('fullChatInput').focus();
+        }
+
+        function closeFullChat() {
+            document.getElementById('fullscreenChat').classList.add('hidden');
+            document.getElementById('collapsedChat').classList.remove('hidden');
+            document.getElementById('collapsedInput').focus();
+        }
+
+        function minimizeChat() {
+            document.getElementById('collapsedChat').classList.add('hidden');
+        }
+
+        function toggleChatMode() {
+            const input = document.getElementById('collapsedInput').value.trim();
+            if (input) {
+                openFullChat();
+            } else {
+                triggerToast('Vui lòng nhập câu hỏi trước!', 'warning');
+            }
+        }
+
+        function addChatMessage(role, content) {
+            chatHistory.push({ role, content, timestamp: new Date() });
+            const messagesDiv = document.getElementById('chatMessages');
+            const msgEl = document.createElement('div');
+            msgEl.className = `animate-fade-in flex ${role === 'user' ? 'justify-end' : 'justify-start'}`;
+            msgEl.innerHTML = `
+                <div class="max-w-xs ${role === 'user' ? 'bg-blue-600/20 border border-blue-600/30' : 'bg-zinc-800/40 border border-zinc-700/40'} px-4 py-3 square-flat">
+                    <p class="text-xs ${role === 'user' ? 'text-blue-200' : 'text-zinc-300'}">${role === 'user' ? '👤 Bạn' : '🤖 RKIX3'}</p>
+                    <p class="text-sm text-zinc-100 mt-1 whitespace-pre-wrap">${content}</p>
+                </div>
+            `;
+            messagesDiv.appendChild(msgEl);
+            messagesDiv.scrollTop = messagesDiv.scrollHeight;
+        }
+
+        function addExecutionLog(message, type = 'info') {
+            executionLogs.push(message);
+            const logsDiv = document.getElementById('executionLogs');
+            const logEl = document.createElement('div');
+            const color = {
+                'info': 'text-zinc-500',
+                'success': 'text-emerald-500',
+                'warning': 'text-yellow-500',
+                'error': 'text-rose-500'
+            }[type] || 'text-zinc-500';
+            logEl.className = `${color} animate-fade-in`;
+            logEl.textContent = message;
+            logsDiv.appendChild(logEl);
+            logsDiv.scrollTop = logsDiv.scrollHeight;
+        }
+
+        function simulateAIExecution(userPrompt) {
+            addExecutionLog('[quá_trình] Phân tích yêu cầu của bạn...', 'info');
+            setTimeout(() => addExecutionLog('[quá_trình] Tải RKIX3 Trợ Lý AI...', 'info'), 500);
+            setTimeout(() => addExecutionLog('[ngữ_cảnh] 🔍 Quét cấu trúc dự án...', 'info'), 1200);
+            
+            setTimeout(() => {
+                addExecutionLog('[mã] 🔧 Tạo mẫu cấu trúc...', 'info');
+                addExecutionLog('[mã] ✓ Thành phần: 5 tệp được tạo', 'success');
+                addExecutionLog('[mã] ✓ Tiện ích: 3 tệp được tạo', 'success');
+                addExecutionLog('[mã] ✓ Kiểu dữ liệu: Được tạo', 'success');
+            }, 2000);
+
+            setTimeout(() => {
+                addExecutionLog('[xây_dựng] 📦 Tối ưu hóa xây dựng...', 'info');
+                addExecutionLog('[xây_dựng] ✓ Xóa mã không dùng', 'success');
+                addExecutionLog('[xây_dựng] ✓ Nén CSS/JavaScript', 'success');
+            }, 3500);
+
+            setTimeout(() => {
+                addExecutionLog('[triển_khai] 🚀 Tạo kế hoạch triển khai...', 'info');
+                addExecutionLog('[triển_khai] ✓ Cấu hình Vercel sẵn sàng', 'success');
+                addExecutionLog('[triển_khai] ✓ Biến môi trường: cần 8 biến', 'warning');
+            }, 4500);
+
+            setTimeout(() => {
+                addExecutionLog('[hoàn_thành] ✨ RKIX3 đã hoàn thành phân tích!', 'success');
+                const mockResponse = `RKIX3 đã phân tích yêu cầu của bạn:\n\n📋 Yêu cầu: ${userPrompt}\n\n✅ Kế hoạch thực hiện:\n1. Tạo cấu trúc dự án (Thành phần, Tiện ích, Kiểu dữ liệu)\n2. Xây dựng và tối ưu hóa mã nguồn\n3. Cấu hình triển khai trên Vercel\n4. Thiết lập quy trình CI/CD\n\n⚡ Thời gian hoàn thành dự kiến: ~2 ngày\n\nHãy xác nhận để bắt đầu hoặc điều chỉnh kế hoạch!`;
+                addChatMessage('assistant', mockResponse);
+            }, 5500);
+        }
+
+        function sendChatMessage() {
+            const input = document.getElementById('fullChatInput').value.trim();
+            if (!input) return;
+            
+            addChatMessage('user', input);
+            document.getElementById('fullChatInput').value = '';
+            executionLogs = [];
+            document.getElementById('executionLogs').innerHTML = '<div class="text-zinc-500">[hệ_thống] Khởi động RKIX3 Trợ Lý AI...</div>';
+            simulateAIExecution(input);
+        }
+
+        function clearChat() {
+            chatHistory = [];
+            document.getElementById('chatMessages').innerHTML = '';
+            executionLogs = ['[hệ_thống] Khởi động RKIX3 Trợ Lý AI...'];
+            document.getElementById('executionLogs').innerHTML = '<div class="text-zinc-500">[hệ_thống] Khởi động RKIX3 Trợ Lý AI...</div>';
+            triggerToast('Đã xóa lịch sử chat!');
+        }
+
+        // Enable send buttons on input
+        document.addEventListener('DOMContentLoaded', () => {
+            const collapsedInput = document.getElementById('collapsedInput');
+            const fullChatInput = document.getElementById('fullChatInput');
+            
+            if (collapsedInput) {
+                collapsedInput.addEventListener('input', () => {
+                    const hasText = collapsedInput.value.trim().length > 0;
+                    document.getElementById('collapsedSendBtn').disabled = !hasText;
+                });
+            }
+            
+            if (fullChatInput) {
+                fullChatInput.addEventListener('input', () => {
+                    const hasText = fullChatInput.value.trim().length > 0;
+                    document.getElementById('fullChatSendBtn').disabled = !hasText;
+                });
+                fullChatInput.addEventListener('keydown', (e) => {
+                    if (e.key === 'Enter' && e.ctrlKey) {
+                        sendChatMessage();
+                    }
+                });
+            }
+        });
     </script>
 </body>
 </html>
